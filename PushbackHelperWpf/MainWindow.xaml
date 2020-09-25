@@ -1,0 +1,168 @@
+﻿<Window x:Name="FrmMain" x:Class="PushbackHelperWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PushbackHelperWpf"
+        mc:Ignorable="d"
+        Title="Pushback Helper" Height="300" Width="350" 
+        AllowsTransparency="True" Closing="Window_Closing" Topmost="True" 
+        WindowStyle="None" ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        Focusable="False" Icon="favicon.ico">
+
+    <Window.Resources>
+        <ImageBrush x:Key="xd_main" ImageSource="Images/Xd/Main.png" Stretch="None"/>
+
+        <Style TargetType="{x:Type Button}" x:Key="xdLeftButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Button.Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="Images/Xd/LeftButtonShape.png" Stretch="None" />
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Button.IsMouseOver" Value="True">
+                    <Setter Property="Button.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="Images/Xd/LeftButtonShapeHovered.png" Stretch="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="Button.IsPressed" Value="True">
+                    <Setter Property="Button.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="Images/Xd/LeftButtonShapePressed.png" Stretch="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="xdRightButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Button.Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="Images/Xd/RightButtonShape.png" Stretch="None" />
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Button.IsMouseOver" Value="True">
+                    <Setter Property="Button.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="Images/Xd/RightButtonShapeHovered.png" Stretch="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="Button.IsPressed" Value="True">
+                    <Setter Property="Button.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="Images/Xd/RightButtonShapePressed.png" Stretch="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="xdTopButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Button.Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="Images/Xd/ActivateButtonShape.png" Stretch="None" />
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Button.IsMouseOver" Value="True">
+                    <Setter Property="Button.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="Images/Xd/ActivateButtonShapeHovered.png" Stretch="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="Button.IsPressed" Value="True">
+                    <Setter Property="Button.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="Images/Xd/ActivateButtonShapePressed.png" Stretch="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="xdStraightButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Button.Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="Images/Xd/StraightButtonShape.png" Stretch="None" />
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Button.IsMouseOver" Value="True">
+                    <Setter Property="Button.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="Images/Xd/StraightButtonShapeHovered.png" Stretch="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="Button.IsPressed" Value="True">
+                    <Setter Property="Button.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="Images/Xd/StraightButtonShapePressed.png" Stretch="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid x:Name="mainGrid" Background="{DynamicResource xd_main}">
+        <Button x:Name="btnLeft" Content="" HorizontalAlignment="Left" Margin="33,90,0,0" BorderThickness="0" 
+                VerticalAlignment="Top" Width="53" Height="119" Style="{DynamicResource xdLeftButtonStyle}"
+                IsTabStop="False" Cursor="Hand" Click="btnLeft_Click"/>
+        <Button x:Name="btnRight" Content="" HorizontalAlignment="Left" Margin="264,90,0,0" BorderThickness="0" 
+            VerticalAlignment="Top" Width="53" Height="119" Style="{DynamicResource ResourceKey=xdRightButtonStyle}"
+                IsTabStop="False" Cursor="Hand" Click="btnRight_Click"/>
+        <Button x:Name="btnActivate" Content="" HorizontalAlignment="Left" Margin="115,8,0,0" BorderThickness="0" 
+                VerticalAlignment="Top" Width="119" Height="53" Style="{DynamicResource ResourceKey=xdTopButtonStyle}"
+                IsTabStop="False" Cursor="Hand" Click="btnActivate_Click"/>
+        <Button x:Name="btnStraight" Content="" HorizontalAlignment="Left" Margin="115,239,0,0" BorderThickness="0" 
+                VerticalAlignment="Top" Width="119" Height="53" Style="{DynamicResource ResourceKey=xdStraightButtonStyle}"
+                IsTabStop="False" Cursor="Hand" Click="btnStraight_Click"/>
+        <Label x:Name="lblSimStatus" Content="DISCONNECTED" HorizontalAlignment="Left" Margin="140,220,0,0" VerticalAlignment="Top" FontSize="8" Height="19" Background="{x:Null}" Foreground="#FF575757" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+    </Grid>
+
+</Window>
