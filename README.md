@@ -10,9 +10,9 @@ v2.0 is now available.
 
 ![Pushback Helper](https://i.ibb.co/R0qtPXJ/Pushback-Helperv2-0.png)
 
-- To start or stop push back simply click **Toggle Pushback** button.
-- To turn tail to the left simply click **To Left** button.
-- To turn tail to the right simply click **To Right** button.
+- To start or stop push back simply click **Activate** button.
+- To turn tail to the left simply click **Left** button.
+- To turn tail to the right simply click **Right** button.
 - To continue straight click **Straight** button.
 
 
