@@ -17,6 +17,7 @@ namespace PushbackHelper
         private bool _simConnectionStatus;
         private int _lastHeading;
         private SimConnect _simClient;
+        private Timer _connectTimer;
         private Timer _timer;
 
         public FrmMain()
