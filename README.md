@@ -2,6 +2,7 @@
 
 Pushback Helper is an application to make push back operations easier.
 
+- You no need to contact ATC for jetway connection
 - You no need to contact ATC for using push back
 - You no need to contact ATC for turning
 - Pushback tug and forklift is connecting if you are close to vehicles
