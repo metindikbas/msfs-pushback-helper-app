@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace PushbackHelperWpf
@@ -47,6 +48,8 @@ namespace PushbackHelperWpf
             _timer.Interval = TimeSpan.FromSeconds(1);
             _timer.Tick += Timer_Tick;
             _timer.Start();
+
+            SetConnectionText();
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -58,6 +61,20 @@ namespace PushbackHelperWpf
         private void ConnectTimer_Tick(object sender, EventArgs e)
         {
             Connect();
+        }
+
+        private void SetConnectionText()
+        {
+            if (_simConnectionStatus)
+            {
+                lblSimStatus.Content = "CONNECTED";
+                lblSimStatus.Foreground = new SolidColorBrush(Colors.GreenYellow);
+            }
+            else
+            {
+                lblSimStatus.Content = "DISCONNECTED";
+                lblSimStatus.Foreground = new SolidColorBrush(Colors.Red);
+            }
         }
 
         private void Connect()
@@ -80,7 +97,7 @@ namespace PushbackHelperWpf
                 _simClient.OnRecvSimobjectDataBytype += SimClient_OnRecvSimobjectDataBytype;
                 //
                 _simConnectionStatus = true;
-                lblSimStatus.Content = "CONNECTED";
+                SetConnectionText();
                 _timer.Start();
             }
             catch (Exception)
@@ -93,7 +110,7 @@ namespace PushbackHelperWpf
         private void SimClient_OnRecvQuit(SimConnect sender, SIMCONNECT_RECV data)
         {
             _simConnectionStatus = false;
-            lblSimStatus.Content = "DISCONNECTED";
+            SetConnectionText();
         }
 
         private void SimClient_OnRecvOpen(SimConnect sender, SIMCONNECT_RECV_OPEN data)
@@ -103,7 +120,7 @@ namespace PushbackHelperWpf
 
         private void SimClient_OnRecvSimobjectDataBytype(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE data)
         {
-            lblSimStatus.Content = "CONNECTED";
+            SetConnectionText();
             if (data.dwRequestID == 0)
             {
                 HeadingDataStruct receivedData = (HeadingDataStruct)data.dwData[0];

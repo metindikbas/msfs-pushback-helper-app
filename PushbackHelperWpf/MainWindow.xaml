@@ -235,11 +235,7 @@
         <Button x:Name="btnStraight" Content="" HorizontalAlignment="Left" Margin="115,285,0,0" BorderThickness="0" 
                 VerticalAlignment="Top" Width="119" Height="53" Style="{DynamicResource ResourceKey=xdStraightButtonStyle}"
                 IsTabStop="False" Cursor="Hand" Click="btnStraight_Click"/>
-        <Label x:Name="lblSimStatus" Content="DISCONNECTED" HorizontalAlignment="Left" Margin="133,109,0,0" VerticalAlignment="Top" FontSize="9" Height="19" Background="{x:Null}" Foreground="#FF949494" Width="84" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" FontFamily="Arial">
-            <Label.Effect>
-                <DropShadowEffect/>
-            </Label.Effect>
-        </Label>
+        <Label x:Name="lblSimStatus" Content="DISCONNECTED" HorizontalAlignment="Left" Margin="133,109,0,0" VerticalAlignment="Top" FontSize="9" Height="19" Background="{x:Null}" Foreground="#FF9C9C9C" Width="84" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" FontFamily="Arial"/>
 
         <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="35" Margin="121,3,0,0" 
                 VerticalAlignment="Top" Background="Transparent" Width="154" MouseDown="Border_MouseDown"/>
