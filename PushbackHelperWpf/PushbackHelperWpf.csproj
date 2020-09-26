@@ -133,6 +133,9 @@
     <Content Include="Microsoft.FlightSimulator.SimConnect.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="README.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="SimConnect.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
