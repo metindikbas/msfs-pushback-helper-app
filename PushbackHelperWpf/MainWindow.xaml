@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PushbackHelperWpf"
         mc:Ignorable="d"
-        Title="Pushback Helper" Height="300" Width="350" 
+        Title="Pushback Helper" Height="350" Width="350" 
         AllowsTransparency="True" Closing="Window_Closing" Topmost="True" 
         WindowStyle="None" ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen"
@@ -14,6 +14,72 @@
 
     <Window.Resources>
         <ImageBrush x:Key="xd_main" ImageSource="Images/Xd/Main.png" Stretch="None"/>
+
+        <Style TargetType="{x:Type Button}" x:Key="xdJetwayButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Button.Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="Images/Xd/JetwayButton.png" Stretch="None" />
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Button.IsMouseOver" Value="True">
+                    <Setter Property="Button.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="Images/Xd/JetwayButtonHovered.png" Stretch="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="Button.IsPressed" Value="True">
+                    <Setter Property="Button.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="Images/Xd/JetwayButtonPressed.png" Stretch="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="xdCloseButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Button.Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="Images/Xd/CloseButton.png" Stretch="None" />
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Button.IsMouseOver" Value="True">
+                    <Setter Property="Button.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="Images/Xd/CloseButtonHovered.png" Stretch="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="Button.IsPressed" Value="True">
+                    <Setter Property="Button.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="Images/Xd/CloseButtonPressed.png" Stretch="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
         <Style TargetType="{x:Type Button}" x:Key="xdLeftButtonStyle">
             <Setter Property="Template">
@@ -150,19 +216,33 @@
     </Window.Resources>
 
     <Grid x:Name="mainGrid" Background="{DynamicResource xd_main}">
-        <Button x:Name="btnLeft" Content="" HorizontalAlignment="Left" Margin="33,90,0,0" BorderThickness="0" 
+        <Button x:Name="btnJetway" Content="" HorizontalAlignment="Left" BorderThickness="0" 
+                VerticalAlignment="Top" Width="80" Height="35" Style="{DynamicResource xdJetwayButtonStyle}"
+                IsTabStop="False" Cursor="Hand" Click="btnJetway_Click" Margin="36,3,0,0"/>
+        <Button x:Name="btnClose" Content="" HorizontalAlignment="Left" Margin="280,3,0,0" BorderThickness="0" 
+                VerticalAlignment="Top" Width="35" Height="35" Style="{DynamicResource xdCloseButtonStyle}"
+                IsTabStop="False" Cursor="Hand" Click="btnClose_Click"/>
+
+        <Button x:Name="btnLeft" Content="" HorizontalAlignment="Left" Margin="33,136,0,0" BorderThickness="0" 
                 VerticalAlignment="Top" Width="53" Height="119" Style="{DynamicResource xdLeftButtonStyle}"
                 IsTabStop="False" Cursor="Hand" Click="btnLeft_Click"/>
-        <Button x:Name="btnRight" Content="" HorizontalAlignment="Left" Margin="264,90,0,0" BorderThickness="0" 
+        <Button x:Name="btnRight" Content="" HorizontalAlignment="Left" Margin="264,136,0,0" BorderThickness="0" 
             VerticalAlignment="Top" Width="53" Height="119" Style="{DynamicResource ResourceKey=xdRightButtonStyle}"
                 IsTabStop="False" Cursor="Hand" Click="btnRight_Click"/>
-        <Button x:Name="btnActivate" Content="" HorizontalAlignment="Left" Margin="115,8,0,0" BorderThickness="0" 
+        <Button x:Name="btnActivate" Content="" HorizontalAlignment="Left" Margin="115,54,0,0" BorderThickness="0" 
                 VerticalAlignment="Top" Width="119" Height="53" Style="{DynamicResource ResourceKey=xdTopButtonStyle}"
                 IsTabStop="False" Cursor="Hand" Click="btnActivate_Click"/>
-        <Button x:Name="btnStraight" Content="" HorizontalAlignment="Left" Margin="115,239,0,0" BorderThickness="0" 
+        <Button x:Name="btnStraight" Content="" HorizontalAlignment="Left" Margin="115,285,0,0" BorderThickness="0" 
                 VerticalAlignment="Top" Width="119" Height="53" Style="{DynamicResource ResourceKey=xdStraightButtonStyle}"
                 IsTabStop="False" Cursor="Hand" Click="btnStraight_Click"/>
-        <Label x:Name="lblSimStatus" Content="DISCONNECTED" HorizontalAlignment="Left" Margin="140,220,0,0" VerticalAlignment="Top" FontSize="8" Height="19" Background="{x:Null}" Foreground="#FF575757" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+        <Label x:Name="lblSimStatus" Content="DISCONNECTED" HorizontalAlignment="Left" Margin="133,112,0,0" VerticalAlignment="Top" FontSize="9" Height="19" Background="{x:Null}" Foreground="#FF949494" Width="84" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" FontFamily="Arial">
+            <Label.Effect>
+                <DropShadowEffect/>
+            </Label.Effect>
+        </Label>
+
+        <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="35" Margin="121,3,0,0" 
+                VerticalAlignment="Top" Background="Transparent" Width="154" MouseDown="Border_MouseDown"/>
     </Grid>
 
 </Window>

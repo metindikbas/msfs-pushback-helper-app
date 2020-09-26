@@ -1,21 +1,9 @@
 ﻿using Microsoft.FlightSimulator.SimConnect;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace PushbackHelperWpf
@@ -36,6 +24,18 @@ namespace PushbackHelperWpf
         public MainWindow()
         {
             InitializeComponent();
+
+            var top = Properties.Settings.Default.WindowTop;
+            var left = Properties.Settings.Default.WindowLeft;
+
+            // Restore window location
+            if (top != 0 && left != 0)
+            {
+                WindowStartupLocation = WindowStartupLocation.Manual;
+                Top = top;
+                Left = left;
+            }
+
             _listener = new LowLevelKeyboardListener();
             _listener.OnKeyPressed += _listener_OnKeyPressed;
             _listener.HookKeyboard();
@@ -176,7 +176,8 @@ namespace PushbackHelperWpf
         private enum PushbackEventsEnum
         {
             KEY_PUSHBACK_SET,
-            KEY_TUG_HEADING
+            KEY_TUG_HEADING,
+            KEY_TOGGLE_JETWAY
         }
 
         private enum NotificationGroupsEnum
@@ -204,28 +205,67 @@ namespace PushbackHelperWpf
             //_listener.UnHookKeyboard();
         }
 
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Save position
+                Properties.Settings.Default.WindowTop = Top;
+                Properties.Settings.Default.WindowLeft = Left;
+                Properties.Settings.Default.Save();
+                // Stop
+                _timer.Stop();
+                _connectTimer.Stop();
+                if (_simConnectionStatus) _simClient.Dispose();
+                _listener.UnHookKeyboard();
+            }
+            catch (Exception)
+            {
+
+            }
+
+            Close();
+        }
+
+        private void btnJetway_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_simConnectionStatus) return;
+            _simClient.MapClientEventToSimEvent(PushbackEventsEnum.KEY_TOGGLE_JETWAY, "TOGGLE_JETWAY");
+            _simClient.TransmitClientEvent(0U, PushbackEventsEnum.KEY_TOGGLE_JETWAY, 1, NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+        }
+
         private void btnActivate_Click(object sender, RoutedEventArgs e)
         {
+            if (!_simConnectionStatus) return;
             _simClient.MapClientEventToSimEvent(PushbackEventsEnum.KEY_PUSHBACK_SET, "TOGGLE_PUSHBACK");
             _simClient.TransmitClientEvent(0U, PushbackEventsEnum.KEY_PUSHBACK_SET, 1, NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
         }
 
         private void btnRight_Click(object sender, RoutedEventArgs e)
         {
+            if (!_simConnectionStatus) return;
             _simClient.MapClientEventToSimEvent(PushbackEventsEnum.KEY_TUG_HEADING, "KEY_TUG_HEADING");
             _simClient.TransmitClientEvent(0U, PushbackEventsEnum.KEY_TUG_HEADING, GetTugHeading(TugDirection.Right), NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
         }
 
         private void btnLeft_Click(object sender, RoutedEventArgs e)
         {
+            if (!_simConnectionStatus) return;
             _simClient.MapClientEventToSimEvent(PushbackEventsEnum.KEY_TUG_HEADING, "KEY_TUG_HEADING");
             _simClient.TransmitClientEvent(0U, PushbackEventsEnum.KEY_TUG_HEADING, GetTugHeading(TugDirection.Left), NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
         }
 
         private void btnStraight_Click(object sender, RoutedEventArgs e)
         {
+            if (!_simConnectionStatus) return;
             _simClient.MapClientEventToSimEvent(PushbackEventsEnum.KEY_TUG_HEADING, "KEY_TUG_HEADING");
             _simClient.TransmitClientEvent(0U, PushbackEventsEnum.KEY_TUG_HEADING, GetTugHeading(TugDirection.Straight), NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+        }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                DragMove();
         }
     }
 }
