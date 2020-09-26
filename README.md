@@ -7,8 +7,16 @@ Pushback Helper is an application to make push back operations easier.
 - Pushback tug and forklift is connecting if you are close to vehicles
 - It also works if there is no any push back vehicle
 
+v2.1 is now available. 
 
-v2.0 is now available. 
+## v2.1 Changes
+- [FEATURE] Jetway button added to manage jetway connection.
+- [FEATURE] Close button added to exit application.
+- [FEATURE] Moving UI is possible now. Just hold left click on the gray area between jetway and close buttons to move it.
+- [FEATURE] When you close the application last location is being saved and restored when you start application.
+- [FEATURE] MSFS connection status text moved to top of aircraft image and it is more readable now. 
+- [BUGFIX] Crash to desktop when click buttons before app connects to the sim is fixed.
+
 
 ## v2.0 Changes
 - UI is recreated using WPF
