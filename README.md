@@ -22,7 +22,7 @@ v2.1 is now available.
 - UI is recreated using WPF
 - Shotcut key is defined. Press  Page Up to show/hide UI. If you have multiple monitor you can move UI by pressing Shift + Windows + Left or Right arrow keys together.
 
-![Pushback Helper](https://i.ibb.co/R0qtPXJ/Pushback-Helperv2-0.png)
+![Pushback Helper](https://i.ibb.co/PMjjfqr/Pushback-Helper-v2-1.png)
 
 - To start or stop push back simply click **Activate** button.
 - To turn tail to the left simply click **Left** button.
