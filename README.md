@@ -33,7 +33,7 @@ v2.1 is now available.
 
 ## Download link
 
-https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/2.0/PushbackHelper_v2.0.zip
+https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/2.1/PushbackHelper_v2.1.zip
 
 
 
