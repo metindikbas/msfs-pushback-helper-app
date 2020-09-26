@@ -126,7 +126,7 @@ namespace PushbackHelperWpf
 
         private void SimClient_OnRecvException(SimConnect sender, SIMCONNECT_RECV_EXCEPTION data)
         {
-            lblSimStatus.Content = "ERROR!";
+            //lblSimStatus.Content = "ERROR!";
         }
 
         private uint GetTugHeading(TugDirection direction)
