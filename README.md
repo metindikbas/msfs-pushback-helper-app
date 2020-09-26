@@ -1,6 +1,12 @@
 # Pushback Helper
 
-This application helps controlling push back tug in MSFS 2020.
+Pushback Helper is an application to make push back operations easier.
+
+- You no need to contact ATC for using push back
+- You no need to contact ATC for turning
+- Pushback tug and forklift is connecting if you are close to vehicles
+- It also works if there is no any push back vehicle
+
 
 v2.0 is now available. 
 
