@@ -130,6 +130,9 @@
     <Resource Include="Images\Xd\JetwayButton.png" />
     <Resource Include="Images\Xd\JetwayButtonHovered.png" />
     <Resource Include="Images\Xd\JetwayButtonPressed.png" />
+    <Resource Include="Images\Xd\FuelButton.png" />
+    <Resource Include="Images\Xd\FuelButtonHovered.png" />
+    <Resource Include="Images\Xd\FuelButtonPressed.png" />
     <Content Include="Microsoft.FlightSimulator.SimConnect.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

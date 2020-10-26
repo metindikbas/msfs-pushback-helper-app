@@ -48,6 +48,39 @@
             </Style.Triggers>
         </Style>
 
+        <Style TargetType="{x:Type Button}" x:Key="xdFuelButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Button.Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="Images/Xd/FuelButton.png" Stretch="None" />
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Button.IsMouseOver" Value="True">
+                    <Setter Property="Button.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="Images/Xd/FuelButtonHovered.png" Stretch="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="Button.IsPressed" Value="True">
+                    <Setter Property="Button.Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="Images/Xd/FuelButtonPressed.png" Stretch="None" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <Style TargetType="{x:Type Button}" x:Key="xdCloseButtonStyle">
             <Setter Property="Template">
                 <Setter.Value>
@@ -239,6 +272,9 @@
 
         <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="35" Margin="121,3,0,0" 
                 VerticalAlignment="Top" Background="Transparent" Width="154" MouseDown="Border_MouseDown"/>
+        <Button x:Name="btnJetway_Copy" Content="" HorizontalAlignment="Left" BorderThickness="0" 
+            VerticalAlignment="Top" Width="80" Height="35" Style="{DynamicResource xdFuelButtonStyle}"
+            IsTabStop="False" Cursor="Hand" Click="btnFuel_Click" Margin="121,3,0,0"/>
     </Grid>
 
 </Window>
