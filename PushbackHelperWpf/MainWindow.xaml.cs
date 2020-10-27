@@ -194,7 +194,8 @@ namespace PushbackHelperWpf
         {
             KEY_PUSHBACK_SET,
             KEY_TUG_HEADING,
-            KEY_TOGGLE_JETWAY
+            KEY_TOGGLE_JETWAY,
+            KEY_REQUEST_FUEL
         }
 
         private enum NotificationGroupsEnum
@@ -277,6 +278,12 @@ namespace PushbackHelperWpf
             if (!_simConnectionStatus) return;
             _simClient.MapClientEventToSimEvent(PushbackEventsEnum.KEY_TUG_HEADING, "KEY_TUG_HEADING");
             _simClient.TransmitClientEvent(0U, PushbackEventsEnum.KEY_TUG_HEADING, GetTugHeading(TugDirection.Straight), NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+        }
+        private void btnFuel_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_simConnectionStatus) return;
+            _simClient.MapClientEventToSimEvent(PushbackEventsEnum.KEY_REQUEST_FUEL, "REQUEST_FUEL_KEY");
+            _simClient.TransmitClientEvent(0U, PushbackEventsEnum.KEY_REQUEST_FUEL, GetTugHeading(TugDirection.Straight), NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
