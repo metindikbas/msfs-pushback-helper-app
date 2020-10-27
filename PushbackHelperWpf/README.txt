@@ -1,5 +1,5 @@
-PUSHBACK HELPER v2.1
-Release date: 2020/09/26
+PUSHBACK HELPER v2.2
+Release date: 2020/10/27
 
 ### INSTALLATION ###
 This app is an external app. You no need to put it into community folder.
@@ -9,10 +9,15 @@ Simple extract all files to any location and run PushbackHelper.exe
 ### USAGE ###
 - To  show/hide UI press Page Up key
 - To connect or disconnect jetway simply click Jetway button.
+- To call fuel truck simply click Fuel button.
 - To start or stop push back simply click Activate button.
 - To turn tail to the left simply click Left button.
 - To turn tail to the right simply click Right button.
 - To continue straight click Straight button.
+
+
+### v2.2 CHANGES ###
+- [FEATURE] Fuel button added to call fuel truck.
 
 
 ### v2.1 CHANGES ###
