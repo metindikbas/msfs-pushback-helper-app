@@ -41,3 +41,8 @@ You can also help this project to grow by contributing on Github.
 ### CREATOR ###
 dikbas.metin@gmail.com
 https://www.linkedin.com/in/metindikbas
+
+### CONTRIBUTERS ###
+gustavosjp - https://github.com/gustavosjp
+HydronicDev - https://github.com/HydronicDev
+
