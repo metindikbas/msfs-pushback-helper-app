@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.FlightSimulator.SimConnect;
+using System;
 using System.Windows.Interop;
 using System.Windows.Threading;
-using Microsoft.FlightSimulator.SimConnect;
 
 namespace PushbackHelper
 {

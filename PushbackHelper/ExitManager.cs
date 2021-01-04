@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.FlightSimulator.SimConnect;
+﻿using Microsoft.FlightSimulator.SimConnect;
+using System;
 
 namespace PushbackHelper
 {
@@ -8,7 +8,7 @@ namespace PushbackHelper
         private bool _mainExit;
         private bool _cargoExit;
         private bool _emergencyExit;
-        public bool MainExit { get { return _mainExit; } private set { _mainExit = value; ExitEvent?.Invoke(ExitType.Main,_mainExit); } }
+        public bool MainExit { get { return _mainExit; } private set { _mainExit = value; ExitEvent?.Invoke(ExitType.Main, _mainExit); } }
         public bool CargoExit { get { return _cargoExit; } private set { _cargoExit = value; ExitEvent?.Invoke(ExitType.Cargo, _cargoExit); } }
         public bool EmergencyExit { get { return _emergencyExit; } private set { _emergencyExit = value; ExitEvent?.Invoke(ExitType.Emergency, _emergencyExit); } }
         private double[] exitTypeArray;
@@ -41,12 +41,12 @@ namespace PushbackHelper
             if (myManager.Connected)
             {
                 //Increase index by 1 for the toggle event. This works better but seems incorrect since 0 is a valid exit index as well
-                if (exitType == ExitType.Main)     
-                    myManager.TransmitEvent(EventsEnum.KEY_TOGGLE_AIRCRAFT_EXIT, mainExitIndex+1);
+                if (exitType == ExitType.Main)
+                    myManager.TransmitEvent(EventsEnum.KEY_TOGGLE_AIRCRAFT_EXIT, mainExitIndex + 1);
                 else if (exitType == ExitType.Cargo)
-                    myManager.TransmitEvent(EventsEnum.KEY_TOGGLE_AIRCRAFT_EXIT, cargoExitIndex+1);
+                    myManager.TransmitEvent(EventsEnum.KEY_TOGGLE_AIRCRAFT_EXIT, cargoExitIndex + 1);
                 else if (exitType == ExitType.Emergency)
-                    myManager.TransmitEvent(EventsEnum.KEY_TOGGLE_AIRCRAFT_EXIT, emergencyExitIndex+1);
+                    myManager.TransmitEvent(EventsEnum.KEY_TOGGLE_AIRCRAFT_EXIT, emergencyExitIndex + 1);
             }
         }
         private void MyManager_DataRxEvent(RequestsEnum request, SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE data)
@@ -56,7 +56,7 @@ namespace PushbackHelper
                 if (request == RequestsEnum.ExitTypeRequest)
                 {
                     uint i = 0;
-                    ExitDataStruct exitData= (ExitDataStruct)data.dwData[0];
+                    ExitDataStruct exitData = (ExitDataStruct)data.dwData[0];
                     foreach (var field in (exitData.GetType().GetFields()))
                     {
                         exitTypeArray[i] = (double)field.GetValue(exitData);
@@ -70,7 +70,7 @@ namespace PushbackHelper
                     * Exit type 2 = Emergency
                     * Exit type 99 = Unused
                     */
-                    if(exitTypeArray[3] == 0)   //Type A320
+                    if (exitTypeArray[3] == 0)   //Type A320
                     {
                         mainExitIndex = 0;
                         emergencyExitIndex = 3;
@@ -110,7 +110,7 @@ namespace PushbackHelper
                     EmergencyExit = exitOpenArray[emergencyExitIndex] > .5;
                 }
             }
-            catch(Exception) { }
+            catch (Exception) { }
         }
 
         public delegate void ExitChanged(ExitType Exit, bool ExitIsOpen);
