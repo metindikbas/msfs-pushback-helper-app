@@ -272,9 +272,14 @@
 
         <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="35" Margin="121,3,0,0" 
                 VerticalAlignment="Top" Background="Transparent" Width="154" MouseDown="Border_MouseDown"/>
-        <Button x:Name="btnFuel" Content="" HorizontalAlignment="Left" BorderThickness="0" 
-            VerticalAlignment="Top" Width="80" Height="35" Style="{DynamicResource xdFuelButtonStyle}"
-            IsTabStop="False" Cursor="Hand" Click="btnFuel_Click" Margin="121,3,0,0"/>
+            
+        <Button x:Name="btnFuel" HorizontalAlignment="Left" BorderThickness="0" 
+                VerticalAlignment="Top" Width="80" Height="35" Style="{DynamicResource xdFuelButtonStyle}"
+                IsTabStop="False" Cursor="Hand" Click="btnFuel_Click" Margin="116,3,0,0"/>
+        
+        <Button x:Name="btnDoor" Content="" HorizontalAlignment="Left" BorderThickness="0" 
+                VerticalAlignment="Top" Width="80" Height="35" Style="{DynamicResource xdFuelButtonStyle}"
+                IsTabStop="False" Cursor="Hand" Click="btnDoor_Click" Margin="196,3,0,0"/>
     </Grid>
 
 </Window>
