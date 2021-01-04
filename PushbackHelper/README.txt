@@ -2,16 +2,15 @@ PUSHBACK HELPER v2.3
 Release date: 2021/01/03
 
 ### INSTALLATION ###
-This app is an external app. You no need to put it into community folder.
-Simply extract all files to any location and run PushbackHelper.exe
+Extract all files to any location and run PushbackHelper.exe. There is no need to put into the community folder location.
 
 ### USAGE ###
-- To  show/hide UI press Page Up key
+- To show/hide UI press the Page Up key
 - To connect or disconnect jetway simply click the Jetway button.
-- To call fuel truck simply click the Fuel button.
+- To call the fuel truck simply click the Fuel button.
 - To start or stop push back simply click the Tug button.
-- The tug will wait in place until either forward or reverse is selected (remove the parking brake first!).
-- Once moving, select left or right to steer the tug.
+- The tug will wait in place until either Forward or Reverse is selected (remove the parking brake first or it will move slowly).
+- Once moving, select Left or Right to steer the tug.
 
 ### v2.3 CHANGES ###
 - [FEATURE] Door buttons added to open/close doors
