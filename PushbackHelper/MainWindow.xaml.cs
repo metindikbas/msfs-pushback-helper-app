@@ -65,7 +65,7 @@ namespace PushbackHelper
             else
             {
                 Height = height;
-                Width = height *.75;
+                Width = height * .75;
             }
         }
         private void SimConnectManager_ConnectStatusEvent(bool Connected)

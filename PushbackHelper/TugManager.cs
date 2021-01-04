@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.FlightSimulator.SimConnect;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using Microsoft.FlightSimulator.SimConnect;
 
 namespace PushbackHelper
 {
@@ -10,7 +10,7 @@ namespace PushbackHelper
         private TugStatus _status;
         public TugStatus Status { get { return _status; } private set { _status = value; TugStatusEvent?.Invoke(value); } }
         public event TugStatusChanged TugStatusEvent;
-        public bool TugActive {get {return Status != TugStatus.Disabled;} }
+        public bool TugActive { get { return Status != TugStatus.Disabled; } }
         private SimConnectManager myManager;
         private double tugHeading;
         private double tugVelocity;
@@ -117,7 +117,7 @@ namespace PushbackHelper
                     RefreshDataStruct receivedData = (RefreshDataStruct)data.dwData[0];
                     tugHeading = receivedData.trueHeading;
 
-                    if(parkingBrakeSet != receivedData.parkingBrakeState)
+                    if (parkingBrakeSet != receivedData.parkingBrakeState)
                     {
                         parkingBrakeSet = receivedData.parkingBrakeState;
                         SetTugVelocity(tugVelocitySet);
