@@ -190,12 +190,13 @@ namespace PushbackHelperWpf
             HeadingDataStruct
         }
 
-        private enum PushbackEventsEnum
+        private enum HandlingEventsEnum
         {
             KEY_PUSHBACK_SET,
             KEY_TUG_HEADING,
             KEY_TOGGLE_JETWAY,
-            KEY_REQUEST_FUEL
+            KEY_REQUEST_FUEL,
+            KEY_TOGGLE_AIRCRAFT_EXIT
         }
 
         private enum NotificationGroupsEnum
@@ -248,42 +249,50 @@ namespace PushbackHelperWpf
         private void btnJetway_Click(object sender, RoutedEventArgs e)
         {
             if (!_simConnectionStatus) return;
-            _simClient.MapClientEventToSimEvent(PushbackEventsEnum.KEY_TOGGLE_JETWAY, "TOGGLE_JETWAY");
-            _simClient.TransmitClientEvent(0U, PushbackEventsEnum.KEY_TOGGLE_JETWAY, 1, NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+            _simClient.MapClientEventToSimEvent(HandlingEventsEnum.KEY_TOGGLE_JETWAY, "TOGGLE_JETWAY");
+            _simClient.TransmitClientEvent(0U, HandlingEventsEnum.KEY_TOGGLE_JETWAY, 1, NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
         }
 
         private void btnActivate_Click(object sender, RoutedEventArgs e)
         {
             if (!_simConnectionStatus) return;
-            _simClient.MapClientEventToSimEvent(PushbackEventsEnum.KEY_PUSHBACK_SET, "TOGGLE_PUSHBACK");
-            _simClient.TransmitClientEvent(0U, PushbackEventsEnum.KEY_PUSHBACK_SET, 1, NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+            _simClient.MapClientEventToSimEvent(HandlingEventsEnum.KEY_PUSHBACK_SET, "TOGGLE_PUSHBACK");
+            _simClient.TransmitClientEvent(0U, HandlingEventsEnum.KEY_PUSHBACK_SET, 1, NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
         }
 
         private void btnRight_Click(object sender, RoutedEventArgs e)
         {
             if (!_simConnectionStatus) return;
-            _simClient.MapClientEventToSimEvent(PushbackEventsEnum.KEY_TUG_HEADING, "KEY_TUG_HEADING");
-            _simClient.TransmitClientEvent(0U, PushbackEventsEnum.KEY_TUG_HEADING, GetTugHeading(TugDirection.Right), NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+            _simClient.MapClientEventToSimEvent(HandlingEventsEnum.KEY_TUG_HEADING, "KEY_TUG_HEADING");
+            _simClient.TransmitClientEvent(0U, HandlingEventsEnum.KEY_TUG_HEADING, GetTugHeading(TugDirection.Right), NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
         }
 
         private void btnLeft_Click(object sender, RoutedEventArgs e)
         {
             if (!_simConnectionStatus) return;
-            _simClient.MapClientEventToSimEvent(PushbackEventsEnum.KEY_TUG_HEADING, "KEY_TUG_HEADING");
-            _simClient.TransmitClientEvent(0U, PushbackEventsEnum.KEY_TUG_HEADING, GetTugHeading(TugDirection.Left), NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+            _simClient.MapClientEventToSimEvent(HandlingEventsEnum.KEY_TUG_HEADING, "KEY_TUG_HEADING");
+            _simClient.TransmitClientEvent(0U, HandlingEventsEnum.KEY_TUG_HEADING, GetTugHeading(TugDirection.Left), NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
         }
 
         private void btnStraight_Click(object sender, RoutedEventArgs e)
         {
             if (!_simConnectionStatus) return;
-            _simClient.MapClientEventToSimEvent(PushbackEventsEnum.KEY_TUG_HEADING, "KEY_TUG_HEADING");
-            _simClient.TransmitClientEvent(0U, PushbackEventsEnum.KEY_TUG_HEADING, GetTugHeading(TugDirection.Straight), NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+            _simClient.MapClientEventToSimEvent(HandlingEventsEnum.KEY_TUG_HEADING, "KEY_TUG_HEADING");
+            _simClient.TransmitClientEvent(0U, HandlingEventsEnum.KEY_TUG_HEADING, GetTugHeading(TugDirection.Straight), NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
         }
+        
         private void btnFuel_Click(object sender, RoutedEventArgs e)
         {
             if (!_simConnectionStatus) return;
-            _simClient.MapClientEventToSimEvent(PushbackEventsEnum.KEY_REQUEST_FUEL, "REQUEST_FUEL_KEY");
-            _simClient.TransmitClientEvent(0U, PushbackEventsEnum.KEY_REQUEST_FUEL, GetTugHeading(TugDirection.Straight), NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+            _simClient.MapClientEventToSimEvent(HandlingEventsEnum.KEY_REQUEST_FUEL, "REQUEST_FUEL_KEY");
+            _simClient.TransmitClientEvent(0U, HandlingEventsEnum.KEY_REQUEST_FUEL, GetTugHeading(TugDirection.Straight), NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+        }
+
+        private void btnDoor_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_simConnectionStatus) return;
+            _simClient.MapClientEventToSimEvent(HandlingEventsEnum.KEY_TOGGLE_AIRCRAFT_EXIT, "TOGGLE_AIRCRAFT_EXIT");
+            _simClient.TransmitClientEvent(0U, HandlingEventsEnum.KEY_TOGGLE_AIRCRAFT_EXIT, 1, NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
