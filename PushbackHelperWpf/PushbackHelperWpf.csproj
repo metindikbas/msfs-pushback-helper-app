@@ -87,7 +87,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="KeyboardListener.cs" />
     <Compile Include="LowLevelKeyboardListener.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -133,6 +132,9 @@
     <Resource Include="Images\Xd\FuelButton.png" />
     <Resource Include="Images\Xd\FuelButtonHovered.png" />
     <Resource Include="Images\Xd\FuelButtonPressed.png" />
+    <Resource Include="Images\Xd\DoorButton.png" />
+    <Resource Include="Images\Xd\DoorButtonHovered.png" />
+    <Resource Include="Images\Xd\DoorButtonPressed.png" />
     <Content Include="Microsoft.FlightSimulator.SimConnect.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
