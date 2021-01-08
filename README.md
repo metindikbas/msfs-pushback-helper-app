@@ -10,10 +10,10 @@ Pushback Helper is an application to make push back operations easier.
 - Open and close aircraft doors easily (A320, 787, 747 only)
 
 ## Download link
-https://github.com/alex-johnson/msfs-pushback-helper-app/releases/download/v2.3/MSFS-Pushback-Helper-App-v2.3.zip
+https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/v2.3/MSFS-Pushback-Helper-App-v2.3.zip
 
 ## Beta link
-https://github.com/alex-johnson/msfs-pushback-helper-app/releases/download/beta/MSFS-Pushback-Helper-App-beta.zip
+https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/beta/MSFS-Pushback-Helper-App-beta.zip
 
 ## Requirements
 - .NET Framework 4.7.2
