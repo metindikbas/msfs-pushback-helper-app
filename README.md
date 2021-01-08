@@ -9,17 +9,51 @@ Pushback Helper is an application to make push back operations easier.
 - No need to contact ATC for calling fuel truck
 - Open and close aircraft doors easily (A320, 787, 747 only)
 
+<img src="https://user-images.githubusercontent.com/18532405/104063638-7bf79980-51ca-11eb-8163-113abfc6895b.png"/>
+
 ## Download link
-https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/v2.3/MSFS-Pushback-Helper-App-v2.3.zip
+[Latest Release v2.3](https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/v2.3/MSFS-Pushback-Helper-App-v2.3.zip)
 
 ## Beta link
-https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/beta/MSFS-Pushback-Helper-App-beta.zip
+[Latest Beta from Master Branch](https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/beta/MSFS-Pushback-Helper-App-beta.zip)
 
 ## Requirements
 - .NET Framework 4.7.2
 
 ## Installation
 Extract all files to any location and run PushbackHelper.exe. There is no need to put into the community folder location.
+
+## Auto-launch
+If you wish to auto-launch the app upon the start of MSFS, follow these steps:
+1) Navigate to the MSFS installation folder and then subfolder LocalCache
+    a) Typically C:\Users\[YOUR USERNAME]\AppData\Local\Packages\Microsoft.FlightSimulator_<RANDOMLETTERS>\LocalCache
+    b) This can vary depending on install drive or if you have the Steam version.
+2) In the LocalCache folder, find the exe.xml file and edit with your text editor of choice.
+3) Add the following snippet under the SimBase.Document tree, but substitute the path of where you installed MSFS Pushback Helper App.
+
+```
+<Launch.Addon>
+    <Name>PushbackHelper</Name>
+    <Disabled>False</Disabled>
+    <Path>[PATH TO PUSHBACK HELPER EXE FILE]</Path>
+</Launch.Addon>
+```
+
+4) This is an **example** of an updated exe.xml file:
+
+```
+<?xml version="1.0" encoding="Windows-1252"?>
+<SimBase.Document Type="SimConnect" version="1,0">
+  <Descr>Auto launch external applications on MSFS start</Descr>
+  <Filename>exe.xml</Filename>
+  <Disabled>False</Disabled>
+  <Launch.Addon>
+     <Name>PushbackHelper</Name>
+     <Disabled>False</Disabled>
+     <Path>C:\Users\alexj\AppData\Local\Packages\Microsoft.FlightSimulator_8wekyb3d8bbwe\LocalCache\Packages\community\msfs-pushback-helper-app\PushbackHelper.exe</Path>
+  </Launch.Addon>
+</SimBase.Document>
+```
 
 # Usage
 - To show/hide UI press the **Page Up** key
