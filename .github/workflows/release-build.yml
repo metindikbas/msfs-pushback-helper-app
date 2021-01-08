@@ -1,0 +1,48 @@
+name: release-build
+
+on:
+  push:
+    tags:
+    - 'v*'
+
+jobs:
+  build:
+    runs-on: [windows-latest]
+
+    steps:
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      shell: bash
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+    - name: Build
+      run: msbuild PushbackHelper.sln /p:Configuration=Release
+    - name: Create ZIP file
+      shell: bash
+      env:
+        RELEASE_ZIP_NAME: msfs-pushback-helper-app-${{ steps.get_version.outputs.VERSION }}.zip
+      run: |
+        7z a -tzip "./${{ env.RELEASE_ZIP_NAME }}" "./PushbackHelper/bin/Release/*"
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.get_version.outputs.VERSION }}
+        release_name: Release ${{ steps.get_version.outputs.VERSION }}
+        draft: false
+        prerelease: false
+    - name: Upload release asset
+      uses: actions/upload-release-asset@v1
+      env:
+        RELEASE_ZIP_NAME: msfs-pushback-helper-app-${{ steps.get_version.outputs.VERSION }}.zip
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./${{ env.RELEASE_ZIP_NAME }}
+        asset_name: ${{ env.RELEASE_ZIP_NAME }}
+        asset_content_type: application/zip
