@@ -49,7 +49,7 @@ namespace PushbackHelper
                     myManager.TransmitEvent(EventsEnum.KEY_TOGGLE_AIRCRAFT_EXIT, emergencyExitIndex + 1);
             }
         }
-        private void MyManager_DataRxEvent(RequestsEnum request, SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE data)
+        private void MyManager_DataRxEvent(RequestsEnum request, SIMCONNECT_RECV_SIMOBJECT_DATA data)
         {
             try
             {
@@ -105,9 +105,9 @@ namespace PushbackHelper
                         i++;
                     }
 
-                    MainExit = exitOpenArray[mainExitIndex] > .5;
-                    CargoExit = exitOpenArray[cargoExitIndex] > .5;
-                    EmergencyExit = exitOpenArray[emergencyExitIndex] > .5;
+                    MainExit = exitOpenArray[mainExitIndex] > .2;
+                    CargoExit = exitOpenArray[cargoExitIndex] > .2;
+                    EmergencyExit = exitOpenArray[emergencyExitIndex] > .2;
                 }
             }
             catch (Exception) { }

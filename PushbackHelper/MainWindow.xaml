@@ -9,8 +9,8 @@
         WindowStyle="None" ResizeMode="CanResizeWithGrip" 
         WindowStartupLocation="CenterScreen"
         Width="300"
-        Height="400"
-        Focusable="False" Icon="favicon.ico">
+        Height="440"
+        Focusable="False" Icon="favicon.ico" Background="{x:Null}">
 
     <Window.Resources>
         <BitmapImage x:Key="xd_main" UriSource="Images/Xd/Main.png"/>
@@ -111,19 +111,14 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    
-    <Window.Background>
-        <ImageBrush x:Name="imageBrush" ImageSource="{StaticResource xd_main}"></ImageBrush>
-    </Window.Background>
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="15*"/>
         </Grid.RowDefinitions>
-        <Border BorderBrush="Black" Background="Transparent" MouseDown="Border_MouseDown" Grid.RowSpan="2"/>
         <Viewbox Grid.Row="0" Viewbox.Stretch="Uniform">
-            <Grid>
+            <Grid Background="#474747">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4"/>
                     <ColumnDefinition Width="80"/>
@@ -140,8 +135,12 @@
                     <RowDefinition Height="35"/>
                     <RowDefinition Height="4"/>
                     <RowDefinition Height="35"/>
-                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="4"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="23"/>
                 </Grid.RowDefinitions>
+                
+                <Border BorderBrush="Black" Background="Transparent" MouseDown="Border_MouseDown" Grid.ColumnSpan="9" Grid.RowSpan="7"/>
                 <Button x:Name="btnTug" Grid.Column="1" Grid.Row="1"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnTug_Click">
                     <Label x:Name="lblTug" Foreground="LightGray" Content="TUG" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
@@ -161,11 +160,23 @@
                 <Button x:Name="btnOpenCargoDoor" Grid.Column="5" Grid.Row="3"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnAircraftDoorCargo_Click">
                     <TextBlock x:Name="lblCargoDoor" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" Block.TextAlignment="Center">CARGO<LineBreak/>DOOR</TextBlock>
                 </Button>
-                <Label x:Name="lblSimStatus" Grid.Column="0" Grid.Row = "5" Grid.ColumnSpan="9" Content="DISCONNECTED" FontSize="9" Foreground="LightGray" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button x:Name="btnParkingBrake" Grid.Column="1" Grid.Row="5"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnParkingBrake_Click">
+                    <TextBlock x:Name="lblParkingBrake" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" Block.TextAlignment="Center">PARKING<LineBreak/>BRAKE</TextBlock>
+                </Button>
+                <Slider x:Name="velocitySlider" Margin="10,15,10,5"  Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="3" Minimum="0" Maximum="100" ValueChanged="velocitySlider_ValueChanged">
+                    <Slider.LayoutTransform>
+                        <ScaleTransform CenterX="0" CenterY="0" ScaleX="1" ScaleY="0.75"/>
+                    </Slider.LayoutTransform>
+                </Slider>
+                <TextBlock x:Name="textSlider" Margin="0,5,0,0" Text="TUG VELOCITY" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="9" Foreground="LightGray" FontFamily="Arial"/>
+                <Label x:Name="lblSimStatus" Grid.Column="0" Grid.Row = "7" Grid.ColumnSpan="9" Content="DISCONNECTED" FontSize="9" Foreground="LightGray" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Grid>
         </Viewbox>
         <Viewbox Grid.Row="1" Viewbox.Stretch="Uniform">
             <Grid>
+                <Grid.Background>
+                    <ImageBrush x:Name="imageBrush" ImageSource="{StaticResource xd_main}"></ImageBrush>
+                </Grid.Background>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60"/>
                     <ColumnDefinition Width="180"/>
@@ -177,6 +188,7 @@
                     <RowDefinition Height="60"/>
                 </Grid.RowDefinitions>
 
+                <Border BorderBrush="Black" Background="Transparent" MouseDown="Border_MouseDown" Grid.ColumnSpan="3" Grid.RowSpan="3"/>
                 <Label x:Name="lblPushbackStatus" Grid.Column="1" Grid.Row="1" Content="DISABLED" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="9" Foreground="LightGray" FontFamily="Arial"/>
                 <Button x:Name="btnLeft" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Width="119" Height="53" Style="{DynamicResource xdCurvedButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnLeft_Click">
                     <Button.LayoutTransform>
