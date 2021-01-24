@@ -13,10 +13,10 @@ namespace PushbackHelper
         public bool TugActive { get { return Status != TugStatus.Disabled; } }
         private SimConnectManager myManager;
         private double tugHeading;
-        private double tugVelocity;
+        private double tugSpeed;
         private double tugRotationActual;
         private double tugRotationSetting;
-        private uint velocityFactor;
+        public uint SpeedFactor { get; private set; }
         private bool parkingBrakeSet;
         private readonly DispatcherTimer fastTimer;
         public TugManager(SimConnectManager manager)
@@ -25,21 +25,21 @@ namespace PushbackHelper
             myManager = manager;
             myManager.ConnectStatusEvent += MyManager_ConnectStatusEvent;
             myManager.DataRxEvent += MyManager_DataRxEvent;
-            fastTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(10) };
+            fastTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(1) };
             fastTimer.Tick += FastTimer_Tick;
             parkingBrakeSet = false;
-            velocityFactor = 30;
+            SpeedFactor = 25;
         }
-        public void SetVelocity(uint value0to100)
+        public void SetSpeed(uint value5to50)
         {
-            velocityFactor = value0to100;
+            SpeedFactor = value5to50;
             switch (Status)
             {
                 case TugStatus.Forward:
-                    SetTugVelocity(velocityFactor);
+                    SetTugSpeed(SpeedFactor);
                     break;
                 case TugStatus.Reverse:
-                    SetTugVelocity(-velocityFactor);
+                    SetTugSpeed(-SpeedFactor);
                     break;
             }
         }
@@ -50,7 +50,7 @@ namespace PushbackHelper
                 myManager.TransmitEvent(EventsEnum.KEY_PUSHBACK_SET, 1);
                 myManager.SetData(DefinitionsEnum.PushbackWait, 0);
                 fastTimer.Stop();
-                SetTugVelocity(0);
+                SetTugSpeed(0);
                 SetTugRotation(0);
             }
         }
@@ -64,7 +64,7 @@ namespace PushbackHelper
         }
         public void Stop()
         {
-            SetTugVelocity(0);
+            SetTugSpeed(0);
         }
         public void Forward()
         {
@@ -74,10 +74,10 @@ namespace PushbackHelper
                     SetTugRotation(0);
                     break;
                 case TugStatus.Reverse:
-                    SetTugVelocity(0);
+                    SetTugSpeed(0);
                     break;
                 case TugStatus.Waiting:
-                    SetTugVelocity(velocityFactor);
+                    SetTugSpeed(SpeedFactor);
                     break;
             }
         }
@@ -89,10 +89,10 @@ namespace PushbackHelper
                     SetTugRotation(0);
                     break;
                 case TugStatus.Forward:
-                    SetTugVelocity(0);
+                    SetTugSpeed(0);
                     break;
                 case TugStatus.Waiting:
-                    SetTugVelocity(-velocityFactor);
+                    SetTugSpeed(-SpeedFactor);
                     break;
             }
         }
@@ -137,10 +137,10 @@ namespace PushbackHelper
                         switch (Status)
                         {
                             case TugStatus.Forward:
-                                SetTugVelocity(velocityFactor);
+                                SetTugSpeed(SpeedFactor);
                                 break;
                             case TugStatus.Reverse:
-                                SetTugVelocity(-velocityFactor);
+                                SetTugSpeed(-SpeedFactor);
                                 break;
                         }
                     }
@@ -166,12 +166,12 @@ namespace PushbackHelper
             if (myManager.Connected)
             {
                 fastTimer.Start();
-                tugVelocity = 0;
+                tugSpeed = 0;
             }
         }
         private void SetTugHeading()
         {
-            if (tugVelocity == 0)
+            if (tugSpeed == 0)
             {
                 myManager.SetData(DefinitionsEnum.RotationY, 0);
             }
@@ -188,34 +188,34 @@ namespace PushbackHelper
                 heading %= 360;
 
                 myManager.TransmitEvent(EventsEnum.KEY_TUG_HEADING, 11930465 * heading);
-                myManager.SetData(DefinitionsEnum.RotationY, tugRotationActual * .005 * tugVelocity);
+                myManager.SetData(DefinitionsEnum.RotationY, tugRotationActual * .002 * tugSpeed);
             }
         }
-        private async void SetTugVelocity(double targetVelocity)
+        private async void SetTugSpeed(double targetSpeed)
         {
             if (TugActive)
             {
-                double startVelocity = tugVelocity;
-                double adjustedVelocity;
+                double startSpeed = tugSpeed;
+                double adjustedSpeed;
 
                 if (parkingBrakeSet)
-                    adjustedVelocity = targetVelocity * .1;
+                    adjustedSpeed = targetSpeed * .1;
                 else
-                    adjustedVelocity = targetVelocity;
+                    adjustedSpeed = targetSpeed;
 
-                if (targetVelocity == 0)
+                if (targetSpeed == 0)
                     Status = TugStatus.Waiting;
-                else if (targetVelocity > 0)
+                else if (targetSpeed > 0)
                     Status = TugStatus.Forward;
-                else if (targetVelocity < 0)
+                else if (targetSpeed < 0)
                     Status = TugStatus.Reverse;
 
                 for (int i = 9; i > 0; i--)
                 {
-                    tugVelocity = adjustedVelocity + (startVelocity - adjustedVelocity) * i / 10;
+                    tugSpeed = adjustedSpeed + (startSpeed - adjustedSpeed) * i / 10;
                     await Task.Delay(100);
                 }
-                tugVelocity = adjustedVelocity;
+                tugSpeed = adjustedSpeed;
             }
         }
         private async void SetTugRotation(double targetRotation)
@@ -225,7 +225,7 @@ namespace PushbackHelper
             for (int i = 9; i > 0; i--)
             {
                 tugRotationActual = targetRotation + (startRotation - targetRotation) * i / 10;
-                await Task.Delay(100);
+                await Task.Delay(200);
             }
             tugRotationActual = targetRotation;
         }
@@ -233,11 +233,11 @@ namespace PushbackHelper
         {
             if (TugActive)
             {
-                myManager.SetData(DefinitionsEnum.PushbackWait, tugVelocity == 0 ? 1 : 0);
+                myManager.SetData(DefinitionsEnum.PushbackWait, tugSpeed == 0 ? 1 : 0);
                 myManager.SetData(DefinitionsEnum.VelocityX, 0);
                 myManager.SetData(DefinitionsEnum.VelocityY, 0);
-                myManager.SetData(DefinitionsEnum.VelocityZ, tugVelocity * .2);
-                myManager.SetData(DefinitionsEnum.RotationX, .0);
+                myManager.SetData(DefinitionsEnum.VelocityZ, tugSpeed * .2);
+                myManager.SetData(DefinitionsEnum.RotationX, 0);
                 myManager.SetData(DefinitionsEnum.RotationZ, 0);
                 SetTugHeading();
             }

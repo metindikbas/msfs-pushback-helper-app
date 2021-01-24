@@ -58,5 +58,17 @@ namespace PushbackHelper.Properties {
                 this["WindowHeight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("25")]
+        public uint TugSpeed {
+            get {
+                return ((uint)(this["TugSpeed"]));
+            }
+            set {
+                this["TugSpeed"] = value;
+            }
+        }
     }
 }

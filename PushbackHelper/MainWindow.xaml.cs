@@ -43,6 +43,13 @@ namespace PushbackHelper
             exitManager.ExitEvent += ExitManager_ExitEvent;
             servicesManager = new ServicesManager(simConnectManager);
             servicesManager.ParkingBrakeEvent += ServicesManager_ParkingBrakeEvent;
+            speedSlider.Value = Properties.Settings.Default.TugSpeed;
+            speedSlider.Minimum = 5;
+            speedSlider.Maximum = 50;
+            tugManager.SetSpeed(Properties.Settings.Default.TugSpeed);
+            btnOpenMainDoor.IsEnabled = false;
+            btnOpenCargoDoor.IsEnabled = false;
+            btnOpenEmergencyDoor.IsEnabled = false;
 
             simConnectManager.Start();
         }
@@ -105,6 +112,7 @@ namespace PushbackHelper
                 Properties.Settings.Default.WindowTop = Top;
                 Properties.Settings.Default.WindowLeft = Left;
                 Properties.Settings.Default.WindowHeight = Height;
+                Properties.Settings.Default.TugSpeed = tugManager.SpeedFactor;
                 Properties.Settings.Default.Save();
                 // Stop
                 tugManager.Disable();
@@ -166,6 +174,10 @@ namespace PushbackHelper
         }
         private void ExitManager_ExitEvent(ExitManager.ExitType Exit, bool ExitIsOpen)
         {
+            btnOpenMainDoor.IsEnabled = exitManager.MainExitEnabled ?? false;
+            btnOpenCargoDoor.IsEnabled = exitManager.CargoExitEnabled ?? false;
+            btnOpenEmergencyDoor.IsEnabled = exitManager.EmergencyExitEnabled ?? false;
+
             switch (Exit)
             {
                 case ExitManager.ExitType.Main:
@@ -238,9 +250,9 @@ namespace PushbackHelper
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
         }
-        private void velocitySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            tugManager.SetVelocity((uint)e.NewValue);
+            tugManager.SetSpeed((uint)e.NewValue);
         }
     }
 }

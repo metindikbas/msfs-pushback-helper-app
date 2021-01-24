@@ -163,12 +163,12 @@
                 <Button x:Name="btnParkingBrake" Grid.Column="1" Grid.Row="5"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnParkingBrake_Click">
                     <TextBlock x:Name="lblParkingBrake" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" Block.TextAlignment="Center">PARKING<LineBreak/>BRAKE</TextBlock>
                 </Button>
-                <Slider x:Name="velocitySlider" Margin="10,15,10,5"  Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="3" Minimum="0" Maximum="100" ValueChanged="velocitySlider_ValueChanged">
+                <Slider x:Name="speedSlider" Margin="10,15,10,5"  Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="3" ValueChanged="SpeedSlider_ValueChanged">
                     <Slider.LayoutTransform>
                         <ScaleTransform CenterX="0" CenterY="0" ScaleX="1" ScaleY="0.75"/>
                     </Slider.LayoutTransform>
                 </Slider>
-                <TextBlock x:Name="textSlider" Margin="0,5,0,0" Text="TUG VELOCITY" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="9" Foreground="LightGray" FontFamily="Arial"/>
+                <TextBlock x:Name="textSlider" Margin="0,5,0,0" Text="TUG SPEED" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="9" Foreground="LightGray" FontFamily="Arial"/>
                 <Label x:Name="lblSimStatus" Grid.Column="0" Grid.Row = "7" Grid.ColumnSpan="9" Content="DISCONNECTED" FontSize="9" Foreground="LightGray" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Grid>
         </Viewbox>
