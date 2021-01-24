@@ -24,7 +24,7 @@ namespace PushbackHelper
             var height = Properties.Settings.Default.WindowHeight;
 
             // Restore window location
-            if (top != 0 || left != 0 || height != 400)
+            if (top != 0 || left != 0 || height != 440)
             {
                 WindowStartupLocation = WindowStartupLocation.Manual;
                 Top = top;
@@ -42,30 +42,37 @@ namespace PushbackHelper
             exitManager = new ExitManager(simConnectManager);
             exitManager.ExitEvent += ExitManager_ExitEvent;
             servicesManager = new ServicesManager(simConnectManager);
+            servicesManager.ParkingBrakeEvent += ServicesManager_ParkingBrakeEvent;
+            speedSlider.Value = Properties.Settings.Default.TugSpeed;
+            speedSlider.Minimum = 5;
+            speedSlider.Maximum = 50;
+            tugManager.SetSpeed(Properties.Settings.Default.TugSpeed);
+            btnOpenMainDoor.IsEnabled = false;
+            btnOpenCargoDoor.IsEnabled = false;
+            btnOpenEmergencyDoor.IsEnabled = false;
 
             simConnectManager.Start();
         }
-
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             SetHeight(sizeInfo.NewSize.Height);
         }
         private void SetHeight(double height)
         {
-            if (height < 100)
+            if (height < 110)
             {
                 Width = 75;
-                Height = 100;
+                Height = 110;
             }
-            else if (height > 800)
+            else if (height > 880)
             {
                 Width = 600;
-                Height = 800;
+                Height = 880;
             }
             else
             {
                 Height = height;
-                Width = height * .75;
+                Width = height * 15/22;
             }
         }
         private void SimConnectManager_ConnectStatusEvent(bool Connected)
@@ -105,6 +112,7 @@ namespace PushbackHelper
                 Properties.Settings.Default.WindowTop = Top;
                 Properties.Settings.Default.WindowLeft = Left;
                 Properties.Settings.Default.WindowHeight = Height;
+                Properties.Settings.Default.TugSpeed = tugManager.SpeedFactor;
                 Properties.Settings.Default.Save();
                 // Stop
                 tugManager.Disable();
@@ -166,6 +174,10 @@ namespace PushbackHelper
         }
         private void ExitManager_ExitEvent(ExitManager.ExitType Exit, bool ExitIsOpen)
         {
+            btnOpenMainDoor.IsEnabled = exitManager.MainExitEnabled ?? false;
+            btnOpenCargoDoor.IsEnabled = exitManager.CargoExitEnabled ?? false;
+            btnOpenEmergencyDoor.IsEnabled = exitManager.EmergencyExitEnabled ?? false;
+
             switch (Exit)
             {
                 case ExitManager.ExitType.Main:
@@ -178,6 +190,13 @@ namespace PushbackHelper
                     lblEmergencyDoor.Foreground = ExitIsOpen ? new SolidColorBrush(Colors.GreenYellow) : new SolidColorBrush(Colors.LightGray);
                     break;
             }
+        }
+        private void ServicesManager_ParkingBrakeEvent(bool value)
+        {
+            if(value)
+                lblParkingBrake.Foreground = new SolidColorBrush(Colors.Red);
+            else
+                lblParkingBrake.Foreground = new SolidColorBrush(Colors.LightGray);
         }
         private void BtnJetway_Click(object sender, RoutedEventArgs e)
         {
@@ -222,10 +241,18 @@ namespace PushbackHelper
         {
             exitManager.ToggleExit(ExitManager.ExitType.Cargo);
         }
+        private void BtnParkingBrake_Click(object sender, RoutedEventArgs e)
+        {
+            servicesManager.ToggleParkingBrake();
+        }
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
+        }
+        private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            tugManager.SetSpeed((uint)e.NewValue);
         }
     }
 }

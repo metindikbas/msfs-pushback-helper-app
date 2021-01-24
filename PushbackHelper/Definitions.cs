@@ -26,7 +26,8 @@
         KEY_TUG_HEADING,
         KEY_TOGGLE_JETWAY,
         KEY_REQUEST_FUEL,
-        KEY_TOGGLE_AIRCRAFT_EXIT
+        KEY_TOGGLE_AIRCRAFT_EXIT,
+        KEY_PARKING_BRAKES
     }
     enum NotificationGroupsEnum
     {
