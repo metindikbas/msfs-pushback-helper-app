@@ -12,7 +12,7 @@ Pushback Helper is an application to make push back operations easier.
 <img src="https://user-images.githubusercontent.com/18532405/104063638-7bf79980-51ca-11eb-8163-113abfc6895b.png"/>
 
 ## Download link
-[Latest Release v2.3](https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/v2.3/MSFS-Pushback-Helper-App-v2.3.zip)
+[Latest Release v2.4](https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/v2.4/MSFS-Pushback-Helper-App-v2.4.zip)
 
 ## Beta link
 [Latest Beta from Master Branch](https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/beta/MSFS-Pushback-Helper-App-beta.zip)
@@ -62,6 +62,10 @@ If you wish to auto-launch the app upon the start of MSFS, follow these steps:
 - To start or stop push back simply click the **Tug** button.
 - The tug will wait in place until either **Forward** or **Reverse** is selected (remove the parking brake first or it will move slowly).
 - Once moving, select **Left** or **Right** to steer the tug.
+
+## v2.4 Changes
+- [FEATURE] Adds tug speed setting
+- [FEATURE] Adds parking brake button
 
 ## v2.3 Changes
 - [FEATURE] Door buttons added to open/close doors
