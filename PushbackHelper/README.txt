@@ -12,6 +12,10 @@ Extract all files to any location and run PushbackHelper.exe. There is no need t
 - The tug will wait in place until either Forward or Reverse is selected (remove the parking brake first or it will move slowly).
 - Once moving, select Left or Right to steer the tug.
 
+### v2.4 CHANGES ###
+- [FEATURE] Adds tug speed setting
+- [FEATURE] Adds parking brake button
+
 ### v2.3 CHANGES ###
 - [FEATURE] Door buttons added to open/close doors
 - [FEATURE] Changed pushback method to new method with forward tug ability
