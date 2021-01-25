@@ -9,7 +9,10 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="WindowHeight" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">400</Value>
+      <Value Profile="(Default)">440</Value>
+    </Setting>
+    <Setting Name="TugSpeed" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">25</Value>
     </Setting>
   </Settings>
 </SettingsFile>

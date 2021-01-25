@@ -12,7 +12,6 @@ namespace PushbackHelper
         private SimConnect simClient;
         private HwndSource gHs;
         private readonly DispatcherTimer connectTimer;
-        private readonly DispatcherTimer refreshTimer;
         public event DataReceived DataRxEvent;
         public event ConnectStatusChanged ConnectStatusEvent;
 
@@ -21,8 +20,6 @@ namespace PushbackHelper
             Connected = false;
             connectTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(10) };
             connectTimer.Tick += ConnectTimer_Tick;
-            refreshTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-            refreshTimer.Tick += RefreshTimer_Tick;
         }
         public void Start()
         {
@@ -37,11 +34,6 @@ namespace PushbackHelper
         {
             if (!Connected) return;
             simClient.TransmitClientEvent(0U, newEvent, data, NotificationGroupsEnum.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
-        }
-        public void RequestData(RequestsEnum request, DefinitionsEnum definition)
-        {
-            if (!Connected) return;
-            simClient.RequestDataOnSimObjectType(request, definition, 0, SIMCONNECT_SIMOBJECT_TYPE.USER);
         }
         public void SetData(DefinitionsEnum definition, object data)
         {
@@ -59,7 +51,6 @@ namespace PushbackHelper
                 gHs.AddHook(new HwndSourceHook(WndProc));
 
                 simClient = new SimConnect("Pushback Helper", lHwnd, 0x402, null, 0);
-                // Sim connect configurations
                 simClient.OnRecvOpen += SimClient_OnRecvOpen;
                 simClient.OnRecvQuit += SimClient_OnRecvQuit;
                 simClient.OnRecvException += SimClient_OnRecvException;
@@ -93,28 +84,41 @@ namespace PushbackHelper
                 simClient.RegisterDataDefineStruct<double>(DefinitionsEnum.RotationY);
                 simClient.RegisterDataDefineStruct<double>(DefinitionsEnum.RotationZ);
 
-                simClient.OnRecvSimobjectDataBytype += SimClient_OnRecvSimobjectDataBytype;
+                simClient.OnRecvSimobjectData += SimClient_OnRecvSimobjectData;
 
                 simClient.MapClientEventToSimEvent(EventsEnum.KEY_PUSHBACK_SET, "TOGGLE_PUSHBACK");
                 simClient.MapClientEventToSimEvent(EventsEnum.KEY_TUG_HEADING, "KEY_TUG_HEADING");
                 simClient.MapClientEventToSimEvent(EventsEnum.KEY_TOGGLE_JETWAY, "TOGGLE_JETWAY");
                 simClient.MapClientEventToSimEvent(EventsEnum.KEY_REQUEST_FUEL, "REQUEST_FUEL_KEY");
                 simClient.MapClientEventToSimEvent(EventsEnum.KEY_TOGGLE_AIRCRAFT_EXIT, "TOGGLE_AIRCRAFT_EXIT");
+                simClient.MapClientEventToSimEvent(EventsEnum.KEY_PARKING_BRAKES, "PARKING_BRAKES");
+
+                simClient.RequestDataOnSimObject(RequestsEnum.RefreshDataRequest, DefinitionsEnum.RefreshDataStruct, 0, SIMCONNECT_PERIOD.SECOND, SIMCONNECT_DATA_REQUEST_FLAG.CHANGED, 0, 0, 0);
+                simClient.RequestDataOnSimObject(RequestsEnum.ExitTypeRequest, DefinitionsEnum.ExitTypeStruct, 0, SIMCONNECT_PERIOD.SECOND, SIMCONNECT_DATA_REQUEST_FLAG.CHANGED, 0, 0, 0);
+                simClient.RequestDataOnSimObject(RequestsEnum.ExitOpenRequest, DefinitionsEnum.ExitOpenStruct, 0, SIMCONNECT_PERIOD.SECOND, SIMCONNECT_DATA_REQUEST_FLAG.CHANGED, 0, 0, 0);
             }
             catch (Exception)
             {
                 Connected = false;
             }
         }
+
+        private void SimClient_OnRecvSimobjectData(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA data)
+        {
+            try
+            {
+                DataRxEvent?.Invoke((RequestsEnum)data.dwRequestID, data);
+            }
+            catch (Exception) { }
+        }
+
         private void SimClient_OnRecvQuit(SimConnect sender, SIMCONNECT_RECV data)
         {
             Connected = false;
-            refreshTimer.Stop();
         }
         private void SimClient_OnRecvOpen(SimConnect sender, SIMCONNECT_RECV_OPEN data)
         {
             Connected = true;
-            refreshTimer.Start();
         }
         private void SimClient_OnRecvException(SimConnect sender, SIMCONNECT_RECV_EXCEPTION data)
         {
@@ -123,14 +127,6 @@ namespace PushbackHelper
         private void ConnectTimer_Tick(object sender, EventArgs e)
         {
             Connect();
-        }
-        private void RefreshTimer_Tick(object sender, EventArgs e)
-        {
-            if (!Connected) return;
-
-            simClient.RequestDataOnSimObjectType(RequestsEnum.RefreshDataRequest, DefinitionsEnum.RefreshDataStruct, 0, SIMCONNECT_SIMOBJECT_TYPE.USER);
-            simClient.RequestDataOnSimObjectType(RequestsEnum.ExitTypeRequest, DefinitionsEnum.ExitTypeStruct, 0, SIMCONNECT_SIMOBJECT_TYPE.USER);
-            simClient.RequestDataOnSimObjectType(RequestsEnum.ExitOpenRequest, DefinitionsEnum.ExitOpenStruct, 0, SIMCONNECT_SIMOBJECT_TYPE.USER);
         }
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
@@ -148,16 +144,8 @@ namespace PushbackHelper
             catch (Exception) { }
             return (IntPtr)0;
         }
-        private void SimClient_OnRecvSimobjectDataBytype(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE data)
-        {
-            try
-            {
-                DataRxEvent?.Invoke((RequestsEnum)data.dwRequestID, data);
-            }
-            catch (Exception) { }
-        }
 
-        public delegate void DataReceived(RequestsEnum request, SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE data);
+        public delegate void DataReceived(RequestsEnum request, SIMCONNECT_RECV_SIMOBJECT_DATA data);
         public delegate void ConnectStatusChanged(bool Connected);
     }
 }
