@@ -41,7 +41,6 @@
     {
         public double trueHeading;
         public uint pushbackState;
-        public bool pushbackAttached;
         public bool parkingBrakeState;
     }
     public struct ExitDataStruct
