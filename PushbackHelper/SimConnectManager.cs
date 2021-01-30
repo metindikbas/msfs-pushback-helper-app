@@ -57,7 +57,6 @@ namespace PushbackHelper
 
                 simClient.AddToDataDefinition(DefinitionsEnum.RefreshDataStruct, "Plane Heading Degrees True", "degrees", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simClient.AddToDataDefinition(DefinitionsEnum.RefreshDataStruct, "Pushback State", "Enum", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-                simClient.AddToDataDefinition(DefinitionsEnum.RefreshDataStruct, "Pushback Attached", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simClient.AddToDataDefinition(DefinitionsEnum.RefreshDataStruct, "Brake Parking Position", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simClient.AddToDataDefinition(DefinitionsEnum.PushbackWait, "Pushback Wait", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simClient.AddToDataDefinition(DefinitionsEnum.VelocityX, "Velocity Body X", "feet per second", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
