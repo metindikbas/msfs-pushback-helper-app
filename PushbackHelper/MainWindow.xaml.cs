@@ -24,7 +24,7 @@ namespace PushbackHelper
             var height = Properties.Settings.Default.WindowHeight;
 
             // Restore window location
-            if (top != 0 || left != 0 || height != 440)
+            if (top != 0 || left != 0 || height != 480)
             {
                 WindowStartupLocation = WindowStartupLocation.Manual;
                 Top = top;
@@ -59,20 +59,20 @@ namespace PushbackHelper
         }
         private void SetHeight(double height)
         {
-            if (height < 110)
+            if (height < 120)
             {
                 Width = 75;
-                Height = 110;
+                Height = 120;
             }
-            else if (height > 880)
+            else if (height > 960)
             {
                 Width = 600;
-                Height = 880;
+                Height = 960;
             }
             else
             {
                 Height = height;
-                Width = height * 15/22;
+                Width = height * 15/24;
             }
         }
         private void SimConnectManager_ConnectStatusEvent(bool Connected)
@@ -240,6 +240,22 @@ namespace PushbackHelper
         private void BtnAircraftDoorCargo_Click(object sender, RoutedEventArgs e)
         {
             exitManager.ToggleExit(ExitManager.ExitType.Cargo);
+        }
+        private void BtnLuggage_Click(object sender, RoutedEventArgs e)
+        {
+            servicesManager.RequestLuggage();
+        }
+        private void BtnPowerSupply_Click(object sender, RoutedEventArgs e)
+        {
+            servicesManager.RequestPowerSupply();
+        }
+        private void BtnCatering_Click(object sender, RoutedEventArgs e)
+        {
+            servicesManager.RequestCatering();
+        }
+        private void BtnRampTruck_Click(object sender, RoutedEventArgs e)
+        {
+            servicesManager.ToggleRampTruck();
         }
         private void BtnParkingBrake_Click(object sender, RoutedEventArgs e)
         {
