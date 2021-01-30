@@ -1,4 +1,4 @@
-PUSHBACK HELPER v2.3
+PUSHBACK HELPER v2.4
 Release date: 2021/01/25
 
 ### INSTALLATION ###
@@ -11,6 +11,10 @@ Extract all files to any location and run PushbackHelper.exe. There is no need t
 - To start or stop push back simply click the Tug button.
 - The tug will wait in place until either Forward or Reverse is selected (remove the parking brake first or it will move slowly).
 - Once moving, select Left or Right to steer the tug.
+
+### v2.4 CHANGES ###
+- [FEATURE] Adds tug speed setting
+- [FEATURE] Adds parking brake button
 
 ### v2.3 CHANGES ###
 - [FEATURE] Door buttons added to open/close doors
