@@ -22,12 +22,16 @@
     }
     enum EventsEnum
     {
-        KEY_PUSHBACK_SET,
-        KEY_TUG_HEADING,
-        KEY_TOGGLE_JETWAY,
-        KEY_REQUEST_FUEL,
-        KEY_TOGGLE_AIRCRAFT_EXIT,
-        KEY_PARKING_BRAKES
+        TOGGLE_PUSHBACK,
+        TOGGLE_JETWAY,
+        TOGGLE_AIRCRAFT_EXIT,
+        TOGGLE_PARKING_BRAKES,
+        TOGGLE_RAMPTRUCK,
+        SET_TUG_HEADING,
+        REQUEST_FUEL,
+        REQUEST_LUGGAGE,
+        REQUEST_POWER_SUPPLY,
+        REQUEST_CATERING
     }
     enum NotificationGroupsEnum
     {
@@ -37,6 +41,7 @@
     {
         public double trueHeading;
         public uint pushbackState;
+        public bool pushbackAttached;
         public bool parkingBrakeState;
     }
     public struct ExitDataStruct
@@ -61,35 +66,5 @@
         public double exitdata18;
         public double exitdata19;
         public double exitdata20;
-        public double exitdata21;
-        public double exitdata22;
-        public double exitdata23;
-        public double exitdata24;
-        public double exitdata25;
-        public double exitdata26;
-        public double exitdata27;
-        public double exitdata28;
-        public double exitdata29;
-        public double exitdata30;
-        public double exitdata31;
-        public double exitdata32;
-        public double exitdata33;
-        public double exitdata34;
-        public double exitdata35;
-        public double exitdata36;
-        public double exitdata37;
-        public double exitdata38;
-        public double exitdata39;
-        public double exitdata40;
-        public double exitdata41;
-        public double exitdata42;
-        public double exitdata43;
-        public double exitdata44;
-        public double exitdata45;
-        public double exitdata46;
-        public double exitdata47;
-        public double exitdata48;
-        public double exitdata49;
-        public double exitdata50;
     }
 }

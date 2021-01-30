@@ -25,8 +25,8 @@ namespace PushbackHelper
         {
             myManager = manager;
             myManager.DataRxEvent += MyManager_DataRxEvent;
-            exitTypeArray = new double[50];
-            exitOpenArray = new double[50];
+            exitTypeArray = new double[20];
+            exitOpenArray = new double[20];
 
             mainExitIndex = 0;
             emergencyExitIndex = 3;
@@ -45,11 +45,11 @@ namespace PushbackHelper
             {
                 //Increase index by 1 for the toggle event. This works better but seems incorrect since 0 is a valid exit index as well
                 if (exitType == ExitType.Main)
-                    myManager.TransmitEvent(EventsEnum.KEY_TOGGLE_AIRCRAFT_EXIT, mainExitIndex + 1);
+                    myManager.TransmitEvent(EventsEnum.TOGGLE_AIRCRAFT_EXIT, mainExitIndex + 1);
                 else if (exitType == ExitType.Cargo)
-                    myManager.TransmitEvent(EventsEnum.KEY_TOGGLE_AIRCRAFT_EXIT, cargoExitIndex + 1);
+                    myManager.TransmitEvent(EventsEnum.TOGGLE_AIRCRAFT_EXIT, cargoExitIndex + 1);
                 else if (exitType == ExitType.Emergency)
-                    myManager.TransmitEvent(EventsEnum.KEY_TOGGLE_AIRCRAFT_EXIT, emergencyExitIndex + 1);
+                    myManager.TransmitEvent(EventsEnum.TOGGLE_AIRCRAFT_EXIT, emergencyExitIndex + 1);
             }
         }
         private void MyManager_DataRxEvent(RequestsEnum request, SIMCONNECT_RECV_SIMOBJECT_DATA data)

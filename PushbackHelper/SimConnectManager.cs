@@ -57,6 +57,7 @@ namespace PushbackHelper
 
                 simClient.AddToDataDefinition(DefinitionsEnum.RefreshDataStruct, "Plane Heading Degrees True", "degrees", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simClient.AddToDataDefinition(DefinitionsEnum.RefreshDataStruct, "Pushback State", "Enum", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+                simClient.AddToDataDefinition(DefinitionsEnum.RefreshDataStruct, "Pushback Attached", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simClient.AddToDataDefinition(DefinitionsEnum.RefreshDataStruct, "Brake Parking Position", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simClient.AddToDataDefinition(DefinitionsEnum.PushbackWait, "Pushback Wait", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simClient.AddToDataDefinition(DefinitionsEnum.VelocityX, "Velocity Body X", "feet per second", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
@@ -65,11 +66,11 @@ namespace PushbackHelper
                 simClient.AddToDataDefinition(DefinitionsEnum.RotationX, "Rotation Velocity Body X", "feet per second", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simClient.AddToDataDefinition(DefinitionsEnum.RotationY, "Rotation Velocity Body Y", "feet per second", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simClient.AddToDataDefinition(DefinitionsEnum.RotationZ, "Rotation Velocity Body Z", "feet per second", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-                for (uint i = 0; i < 50; i++)
+                for (uint i = 0; i < 20; i++)
                 {
                     simClient.AddToDataDefinition(DefinitionsEnum.ExitTypeStruct, string.Format("Exit Type:{0}", i), "Enum", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 }
-                for (uint i = 0; i < 50; i++)
+                for (uint i = 0; i < 20; i++)
                 {
                     simClient.AddToDataDefinition(DefinitionsEnum.ExitOpenStruct, string.Format("Exit Open:{0}", i), "percent over 100", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 }
@@ -86,12 +87,16 @@ namespace PushbackHelper
 
                 simClient.OnRecvSimobjectData += SimClient_OnRecvSimobjectData;
 
-                simClient.MapClientEventToSimEvent(EventsEnum.KEY_PUSHBACK_SET, "TOGGLE_PUSHBACK");
-                simClient.MapClientEventToSimEvent(EventsEnum.KEY_TUG_HEADING, "KEY_TUG_HEADING");
-                simClient.MapClientEventToSimEvent(EventsEnum.KEY_TOGGLE_JETWAY, "TOGGLE_JETWAY");
-                simClient.MapClientEventToSimEvent(EventsEnum.KEY_REQUEST_FUEL, "REQUEST_FUEL_KEY");
-                simClient.MapClientEventToSimEvent(EventsEnum.KEY_TOGGLE_AIRCRAFT_EXIT, "TOGGLE_AIRCRAFT_EXIT");
-                simClient.MapClientEventToSimEvent(EventsEnum.KEY_PARKING_BRAKES, "PARKING_BRAKES");
+                simClient.MapClientEventToSimEvent(EventsEnum.TOGGLE_PUSHBACK, "TOGGLE_PUSHBACK");
+                simClient.MapClientEventToSimEvent(EventsEnum.TOGGLE_JETWAY, "TOGGLE_JETWAY");
+                simClient.MapClientEventToSimEvent(EventsEnum.TOGGLE_AIRCRAFT_EXIT, "TOGGLE_AIRCRAFT_EXIT");
+                simClient.MapClientEventToSimEvent(EventsEnum.TOGGLE_PARKING_BRAKES, "PARKING_BRAKES");
+                simClient.MapClientEventToSimEvent(EventsEnum.TOGGLE_RAMPTRUCK, "TOGGLE_RAMPTRUCK");
+                simClient.MapClientEventToSimEvent(EventsEnum.SET_TUG_HEADING, "KEY_TUG_HEADING");
+                simClient.MapClientEventToSimEvent(EventsEnum.REQUEST_FUEL, "REQUEST_FUEL_KEY");
+                simClient.MapClientEventToSimEvent(EventsEnum.REQUEST_LUGGAGE, "REQUEST_LUGGAGE");
+                simClient.MapClientEventToSimEvent(EventsEnum.REQUEST_POWER_SUPPLY, "REQUEST_POWER_SUPPLY");
+                simClient.MapClientEventToSimEvent(EventsEnum.REQUEST_CATERING, "REQUEST_CATERING");
 
                 simClient.RequestDataOnSimObject(RequestsEnum.RefreshDataRequest, DefinitionsEnum.RefreshDataStruct, 0, SIMCONNECT_PERIOD.SECOND, SIMCONNECT_DATA_REQUEST_FLAG.CHANGED, 0, 0, 0);
                 simClient.RequestDataOnSimObject(RequestsEnum.ExitTypeRequest, DefinitionsEnum.ExitTypeStruct, 0, SIMCONNECT_PERIOD.SECOND, SIMCONNECT_DATA_REQUEST_FLAG.CHANGED, 0, 0, 0);

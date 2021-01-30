@@ -30,15 +30,31 @@ namespace PushbackHelper
 
         public void ToggleJetway()
         {
-            myManager.TransmitEvent(EventsEnum.KEY_TOGGLE_JETWAY, 1);
+            myManager.TransmitEvent(EventsEnum.TOGGLE_JETWAY, 1);
         }
         public void ToggleFuel()
         {
-            myManager.TransmitEvent(EventsEnum.KEY_REQUEST_FUEL, 1);
+            myManager.TransmitEvent(EventsEnum.REQUEST_FUEL, 1);
+        }
+        public void ToggleRampTruck()
+        {
+            myManager.TransmitEvent(EventsEnum.TOGGLE_RAMPTRUCK, 1);
+        }
+        public void RequestLuggage()
+        {
+            myManager.TransmitEvent(EventsEnum.REQUEST_LUGGAGE, 1);
+        }
+        public void RequestPowerSupply()
+        {
+            myManager.TransmitEvent(EventsEnum.REQUEST_POWER_SUPPLY, 1);
+        }
+        public void RequestCatering()
+        {
+            myManager.TransmitEvent(EventsEnum.REQUEST_CATERING, 1);
         }
         public void ToggleParkingBrake()
         {
-            myManager.TransmitEvent(EventsEnum.KEY_PARKING_BRAKES, 1);
+            myManager.TransmitEvent(EventsEnum.TOGGLE_PARKING_BRAKES, 1);
         }
 
         public delegate void BoolChanged(bool value);
