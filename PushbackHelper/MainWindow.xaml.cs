@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace PushbackHelper
@@ -15,6 +17,8 @@ namespace PushbackHelper
         private readonly TugManager tugManager;
         private readonly ExitManager exitManager;
         private readonly ServicesManager servicesManager;
+        private bool ConnectedOnce;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,6 +36,7 @@ namespace PushbackHelper
                 SetHeight(height);
             }
 
+            ConnectedOnce = false;
             listener = new LowLevelKeyboardListener();
             listener.OnKeyPressed += Listener_OnKeyPressed;
             listener.HookKeyboard();
@@ -61,6 +66,27 @@ namespace PushbackHelper
         {
             SetHeight(sizeInfo.NewSize.Height);
         }
+        public void ExitApp()
+        {
+            try
+            {
+                // Save position
+                Properties.Settings.Default.WindowTop = Top;
+                Properties.Settings.Default.WindowLeft = Left;
+                Properties.Settings.Default.WindowHeight = Height;
+                Properties.Settings.Default.TugSpeed = tugManager.SpeedFactor;
+                Properties.Settings.Default.Save();
+                // Stop
+                tugManager.Disable();
+                simConnectManager.Stop();
+                listener.UnHookKeyboard();
+            }
+            catch (Exception)
+            {
+
+            }
+            Close();
+        }
         private void SetHeight(double height)
         {
             if (height < 120)
@@ -83,6 +109,7 @@ namespace PushbackHelper
         {
             if (Connected)
             {
+                ConnectedOnce = true;
                 lblSimStatus.Content = "CONNECTED";
                 lblSimStatus.Foreground = new SolidColorBrush(Colors.GreenYellow);
             }
@@ -90,6 +117,11 @@ namespace PushbackHelper
             {
                 lblSimStatus.Content = "DISCONNECTED";
                 lblSimStatus.Foreground = new SolidColorBrush(Colors.Red);
+
+                if(ConnectedOnce == true)
+                {
+                    ExitApp();
+                }
             }
         }
         private void Listener_OnKeyPressed(object sender, KeyPressedArgs e)
@@ -110,24 +142,7 @@ namespace PushbackHelper
         }
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // Save position
-                Properties.Settings.Default.WindowTop = Top;
-                Properties.Settings.Default.WindowLeft = Left;
-                Properties.Settings.Default.WindowHeight = Height;
-                Properties.Settings.Default.TugSpeed = tugManager.SpeedFactor;
-                Properties.Settings.Default.Save();
-                // Stop
-                tugManager.Disable();
-                simConnectManager.Stop();
-                listener.UnHookKeyboard();
-            }
-            catch (Exception)
-            {
-
-            }
-            Close();
+            ExitApp();
         }
         private void TugManager_TugStatusEvent(TugManager.TugStatus Status)
         {
@@ -298,5 +313,20 @@ namespace PushbackHelper
         {
             tugManager.SetSpeed((uint)e.NewValue);
         }
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            //Set the window style to noactivate.
+            var handle = new WindowInteropHelper(this).Handle;
+            SetWindowLong(handle, -20, GetWindowLong(handle, -20) | 0x08000000);
+        }
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll")]
+        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
     }
 }
