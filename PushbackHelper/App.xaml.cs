@@ -13,6 +13,7 @@ namespace PushbackHelper
             string message = string.Format("{0} {1} {2}", e.Exception.Message, e.Exception.TargetSite, e.Exception.InnerException);
             MessageBox.Show(message, "Exception Caught", MessageBoxButton.OK, MessageBoxImage.Error);
             Clipboard.SetText(message);
+            e.Handled = true;
         }
     }
 }

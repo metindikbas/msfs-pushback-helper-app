@@ -21,7 +21,14 @@ namespace PushbackHelper
 
         public MainWindow()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.ToString(), "Exception Caught", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             ConnectedOnce = false;
             uint tugSpeed = 25;
 
