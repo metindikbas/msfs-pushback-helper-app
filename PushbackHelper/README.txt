@@ -1,16 +1,23 @@
-PUSHBACK HELPER v2.4
-Release date: 2021/01/25
+PUSHBACK HELPER v2.5
+Release date: 2021/02/15
 
 ### INSTALLATION ###
 Extract all files to any location and run PushbackHelper.exe. There is no need to put into the community folder location.
 
 ### USAGE ###
 - To show/hide UI press the Page Up key
-- To connect or disconnect jetway simply click the Jetway button.
-- To call the fuel truck simply click the Fuel button.
-- To start or stop push back simply click the Tug button.
-- The tug will wait in place until either Forward or Reverse is selected (remove the parking brake first or it will move slowly).
-- Once moving, select Left or Right to steer the tug.
+- To connect or disconnect jetway simply click the JETWAY button.
+- To call the fuel truck simply click the FUEL button.
+- To start or stop push back simply click the TUG button.
+- The tug will wait in place until either FORWARD or REVERSE is selected (remove the parking brake first or it will move slowly).
+- Once moving, select LEFT or RIGHT to steer the tug.
+- When done, click STOP. Apply the parking brake. Click the TUG button again to remove the tug.
+
+### v2.5 CHANGES ###
+- [FEATURE] Adds more ground services
+- [FEATURE] App no longer steals focus from MSFS so audio remains
+- [FEATURE] App will auto exit upon exit of MSFS
+- [BUGFIX] Adds better exception handling
 
 ### v2.4 CHANGES ###
 - [FEATURE] Adds tug speed setting
@@ -35,6 +42,7 @@ Extract all files to any location and run PushbackHelper.exe. There is no need t
 ### v2.0 CHANGES ###
 - UI is recreated using WPF.
 - Shotcut key is defined. Press Page Up to show/hide UI.
+
 NOTE:  If you have multiple monitor you can move UI by pressing Shift + Windows + Left or Right arrow keys together.
 
 ### SUPPORT ###

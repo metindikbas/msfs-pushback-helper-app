@@ -7,6 +7,8 @@ namespace PushbackHelper
 {
     class SimConnectManager
     {
+        private HwndSource gHs;
+        private IntPtr lHwnd;
         private bool _connected;
         public bool Connected { get { return _connected; } private set { _connected = value; ConnectStatusEvent?.Invoke(Connected); } }
         private SimConnect simClient;
@@ -17,7 +19,7 @@ namespace PushbackHelper
         public SimConnectManager()
         {
             Connected = false;
-            connectTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+            connectTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             connectTimer.Tick += ConnectTimer_Tick;
         }
         public void Start()
@@ -43,13 +45,18 @@ namespace PushbackHelper
         {
             try
             {
-                if (Connected) return;
+                if (Connected)
+                {
+                    connectTimer.Stop();
+                    return;
+                }
+
                 WindowInteropHelper lWih = new WindowInteropHelper(System.Windows.Application.Current.MainWindow);
-                IntPtr lHwnd = lWih.Handle;
-                HwndSource gHs = HwndSource.FromHwnd(lHwnd);
+                lHwnd = lWih.Handle;
+                gHs = HwndSource.FromHwnd(lHwnd);
                 gHs.AddHook(new HwndSourceHook(WndProc));
 
-                simClient = new SimConnect("Pushback Helper", lHwnd, 0x402, null, 0U);
+                simClient = new SimConnect("Pushback Helper", lHwnd, 0x402, null, 0);
                 simClient.OnRecvOpen += SimClient_OnRecvOpen;
                 simClient.OnRecvQuit += SimClient_OnRecvQuit;
                 simClient.OnRecvException += SimClient_OnRecvException;

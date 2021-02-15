@@ -22,45 +22,73 @@ namespace PushbackHelper
         public MainWindow()
         {
             InitializeComponent();
+            ConnectedOnce = false;
+            uint tugSpeed = 25;
 
-            var top = Properties.Settings.Default.WindowTop;
-            var left = Properties.Settings.Default.WindowLeft;
-            var height = Properties.Settings.Default.WindowHeight;
-
-            // Restore window location
-            if (top != 0 || left != 0 || height != 480)
+            try
             {
-                WindowStartupLocation = WindowStartupLocation.Manual;
-                Top = top;
-                Left = left;
-                SetHeight(height);
+                if (Properties.Settings.Default.CallUpgrade)
+                {
+                    Properties.Settings.Default.Upgrade();
+                    Properties.Settings.Default.CallUpgrade = false;
+                }
+                var top = Properties.Settings.Default.WindowTop;
+                var left = Properties.Settings.Default.WindowLeft;
+                var height = Properties.Settings.Default.WindowHeight;
+                tugSpeed = Properties.Settings.Default.TugSpeed;
+
+                // Restore window location
+                if (top != 0 || left != 0 || height != 480)
+                {
+                    WindowStartupLocation = WindowStartupLocation.Manual;
+                    Top = top;
+                    Left = left;
+                    SetHeight(height);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Unable to load settings file", "Exception Caught", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            ConnectedOnce = false;
-            listener = new LowLevelKeyboardListener();
-            listener.OnKeyPressed += Listener_OnKeyPressed;
-            listener.HookKeyboard();
-            simConnectManager = new SimConnectManager();
-            simConnectManager.ConnectStatusEvent += SimConnectManager_ConnectStatusEvent;
-            tugManager = new TugManager(simConnectManager);
-            tugManager.TugStatusEvent += TugManager_TugStatusEvent;
-            exitManager = new ExitManager(simConnectManager);
-            exitManager.ExitEvent += ExitManager_ExitEvent;
-            servicesManager = new ServicesManager(simConnectManager);
-            servicesManager.ParkingBrakeEvent += ServicesManager_ParkingBrakeEvent;
-            speedSlider.Value = Properties.Settings.Default.TugSpeed;
-            speedSlider.Minimum = 5;
-            speedSlider.Maximum = 50;
-            tugManager.SetSpeed(Properties.Settings.Default.TugSpeed);
-            btnOpenMainDoor.IsEnabled = false;
-            btnOpenCargoDoor.IsEnabled = false;
-            btnOpenEmergencyDoor.IsEnabled = false;
-            btnForward.IsEnabled = false;
-            btnReverse.IsEnabled = false;
-            btnLeft.IsEnabled = false;
-            btnRight.IsEnabled = false;
+            try
+            {
+                listener = new LowLevelKeyboardListener();
+                listener.OnKeyPressed += Listener_OnKeyPressed;
+                listener.HookKeyboard();
+            }
+            catch
+            {
+                MessageBox.Show("Unable to connect to keyboard", "Exception Caught", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
-            simConnectManager.Start();
+            try
+            {
+                simConnectManager = new SimConnectManager();
+                simConnectManager.ConnectStatusEvent += SimConnectManager_ConnectStatusEvent;
+                tugManager = new TugManager(simConnectManager);
+                tugManager.TugStatusEvent += TugManager_TugStatusEvent;
+                exitManager = new ExitManager(simConnectManager);
+                exitManager.ExitEvent += ExitManager_ExitEvent;
+                servicesManager = new ServicesManager(simConnectManager);
+                servicesManager.ParkingBrakeEvent += ServicesManager_ParkingBrakeEvent;
+                speedSlider.Value = tugSpeed;
+                speedSlider.Minimum = 5;
+                speedSlider.Maximum = 50;
+                tugManager.SetSpeed(tugSpeed);
+                btnOpenMainDoor.IsEnabled = false;
+                btnOpenCargoDoor.IsEnabled = false;
+                btnOpenEmergencyDoor.IsEnabled = false;
+                btnForward.IsEnabled = false;
+                btnReverse.IsEnabled = false;
+                btnLeft.IsEnabled = false;
+                btnRight.IsEnabled = false;
+                simConnectManager.Start();
+            }
+            catch
+            {
+                MessageBox.Show("Unable to initialize SimConnect manager", "Exception Caught", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
@@ -71,9 +99,12 @@ namespace PushbackHelper
             try
             {
                 // Save position
-                Properties.Settings.Default.WindowTop = Top;
-                Properties.Settings.Default.WindowLeft = Left;
-                Properties.Settings.Default.WindowHeight = Height;
+                if (WindowState == WindowState.Normal)
+                {
+                    Properties.Settings.Default.WindowTop = Top;
+                    Properties.Settings.Default.WindowLeft = Left;
+                    Properties.Settings.Default.WindowHeight = Height;
+                }
                 Properties.Settings.Default.TugSpeed = tugManager.SpeedFactor;
                 Properties.Settings.Default.Save();
                 // Stop
@@ -315,11 +346,16 @@ namespace PushbackHelper
         }
         protected override void OnSourceInitialized(EventArgs e)
         {
-            base.OnSourceInitialized(e);
+            try
+            {
+                base.OnSourceInitialized(e);
 
-            //Set the window style to noactivate.
-            var handle = new WindowInteropHelper(this).Handle;
-            SetWindowLong(handle, -20, GetWindowLong(handle, -20) | 0x08000000);
+                //Set the window style to noactivate.
+                var handle = new WindowInteropHelper(this).Handle;
+                SetWindowLong(handle, -20, GetWindowLong(handle, -20) | 0x08000000);
+            }
+            catch
+            { }
         }
 
         [DllImport("user32.dll")]

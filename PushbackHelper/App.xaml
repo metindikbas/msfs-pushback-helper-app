@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:properties="clr-namespace:PushbackHelper.Properties"
              StartupUri="MainWindow.xaml"
-             DispatcherUnhandledException="ApplicationUnhandledException">             
+             DispatcherUnhandledException="ApplicationUnhandledException">
     <Application.Resources>
-        <properties:Settings x:Key="Settings" />
+        <properties:Settings x:Key="Settings"/>
     </Application.Resources>
 </Application>
