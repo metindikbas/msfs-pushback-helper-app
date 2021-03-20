@@ -24,7 +24,7 @@ namespace PushbackHelper
             var height = Properties.Settings.Default.WindowHeight;
 
             // Restore window location
-            if (top != 0 || left != 0 || height != 440)
+            if (top != 0 || left != 0 || height != 480)
             {
                 WindowStartupLocation = WindowStartupLocation.Manual;
                 Top = top;
@@ -50,6 +50,10 @@ namespace PushbackHelper
             btnOpenMainDoor.IsEnabled = false;
             btnOpenCargoDoor.IsEnabled = false;
             btnOpenEmergencyDoor.IsEnabled = false;
+            btnForward.IsEnabled = false;
+            btnReverse.IsEnabled = false;
+            btnLeft.IsEnabled = false;
+            btnRight.IsEnabled = false;
 
             simConnectManager.Start();
         }
@@ -59,20 +63,20 @@ namespace PushbackHelper
         }
         private void SetHeight(double height)
         {
-            if (height < 110)
+            if (height < 120)
             {
                 Width = 75;
-                Height = 110;
+                Height = 120;
             }
-            else if (height > 880)
+            else if (height > 960)
             {
                 Width = 600;
-                Height = 880;
+                Height = 960;
             }
             else
             {
                 Height = height;
-                Width = height * 15/22;
+                Width = height * 15/24;
             }
         }
         private void SimConnectManager_ConnectStatusEvent(bool Connected)
@@ -135,9 +139,15 @@ namespace PushbackHelper
                     lblPushbackStatus.Foreground = new SolidColorBrush(Colors.Gray);
                     lblTug.Foreground = new SolidColorBrush(Colors.LightGray);
                     lblForward.Content = "FORWARD";
-                    lblForward.Foreground = new SolidColorBrush(Colors.LightGray);
+                    lblForward.Foreground = new SolidColorBrush(Colors.DarkGray);
                     lblReverse.Content = "REVERSE";
-                    lblReverse.Foreground = new SolidColorBrush(Colors.LightGray);
+                    lblReverse.Foreground = new SolidColorBrush(Colors.DarkGray);
+                    lblLeft.Foreground = new SolidColorBrush(Colors.DarkGray);
+                    lblRight.Foreground = new SolidColorBrush(Colors.DarkGray);
+                    btnForward.IsEnabled = false;
+                    btnReverse.IsEnabled = false;
+                    btnLeft.IsEnabled = false;
+                    btnRight.IsEnabled = false;
                 }
                 else if (Status == TugManager.TugStatus.Waiting)
                 {
@@ -148,6 +158,12 @@ namespace PushbackHelper
                     lblForward.Foreground = new SolidColorBrush(Colors.LightGray);
                     lblReverse.Content = "REVERSE";
                     lblReverse.Foreground = new SolidColorBrush(Colors.LightGray);
+                    lblLeft.Foreground = new SolidColorBrush(Colors.LightGray);
+                    lblRight.Foreground = new SolidColorBrush(Colors.LightGray);
+                    btnForward.IsEnabled = true;
+                    btnReverse.IsEnabled = true;
+                    btnLeft.IsEnabled = true;
+                    btnRight.IsEnabled = true;
                 }
                 else if (Status == TugManager.TugStatus.Forward)
                 {
@@ -156,8 +172,14 @@ namespace PushbackHelper
                     lblTug.Foreground = new SolidColorBrush(Colors.GreenYellow);
                     lblReverse.Content = "STOP";
                     lblReverse.Foreground = new SolidColorBrush(Colors.Red);
-                    lblForward.Content = "FORWARD";
+                    lblForward.Content = "STRAIGHT";
                     lblForward.Foreground = new SolidColorBrush(Colors.LightGray);
+                    lblLeft.Foreground = new SolidColorBrush(Colors.LightGray);
+                    lblRight.Foreground = new SolidColorBrush(Colors.LightGray);
+                    btnForward.IsEnabled = true;
+                    btnReverse.IsEnabled = true;
+                    btnLeft.IsEnabled = true;
+                    btnRight.IsEnabled = true;
                 }
                 else if (Status == TugManager.TugStatus.Reverse)
                 {
@@ -166,8 +188,14 @@ namespace PushbackHelper
                     lblTug.Foreground = new SolidColorBrush(Colors.GreenYellow);
                     lblForward.Content = "STOP";
                     lblForward.Foreground = new SolidColorBrush(Colors.Red);
-                    lblReverse.Content = "REVERSE";
+                    lblReverse.Content = "STRAIGHT";
                     lblReverse.Foreground = new SolidColorBrush(Colors.LightGray);
+                    lblLeft.Foreground = new SolidColorBrush(Colors.LightGray);
+                    lblRight.Foreground = new SolidColorBrush(Colors.LightGray);
+                    btnForward.IsEnabled = true;
+                    btnReverse.IsEnabled = true;
+                    btnLeft.IsEnabled = true;
+                    btnRight.IsEnabled = true;
                 }
             }
             catch (Exception) { }
@@ -240,6 +268,22 @@ namespace PushbackHelper
         private void BtnAircraftDoorCargo_Click(object sender, RoutedEventArgs e)
         {
             exitManager.ToggleExit(ExitManager.ExitType.Cargo);
+        }
+        private void BtnLuggage_Click(object sender, RoutedEventArgs e)
+        {
+            servicesManager.RequestLuggage();
+        }
+        private void BtnPowerSupply_Click(object sender, RoutedEventArgs e)
+        {
+            servicesManager.RequestPowerSupply();
+        }
+        private void BtnCatering_Click(object sender, RoutedEventArgs e)
+        {
+            servicesManager.RequestCatering();
+        }
+        private void BtnRampTruck_Click(object sender, RoutedEventArgs e)
+        {
+            servicesManager.ToggleRampTruck();
         }
         private void BtnParkingBrake_Click(object sender, RoutedEventArgs e)
         {

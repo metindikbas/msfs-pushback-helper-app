@@ -9,7 +9,7 @@
         WindowStyle="None" ResizeMode="CanResizeWithGrip" 
         WindowStartupLocation="CenterScreen"
         Width="300"
-        Height="440"
+        Height="480"
         Focusable="False" Icon="favicon.ico" Background="{x:Null}">
 
     <Window.Resources>
@@ -114,7 +114,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="7*"/>
+            <RowDefinition Height="9*"/>
             <RowDefinition Height="15*"/>
         </Grid.RowDefinitions>
         <Viewbox Grid.Row="0" Viewbox.Stretch="Uniform">
@@ -137,39 +137,58 @@
                     <RowDefinition Height="35"/>
                     <RowDefinition Height="4"/>
                     <RowDefinition Height="35"/>
-                    <RowDefinition Height="23"/>
+                    <RowDefinition Height="4"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="24"/>
                 </Grid.RowDefinitions>
                 
                 <Border BorderBrush="Black" Background="Transparent" MouseDown="Border_MouseDown" Grid.ColumnSpan="9" Grid.RowSpan="7"/>
-                <Button x:Name="btnTug" Grid.Column="1" Grid.Row="1"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnTug_Click">
-                    <Label x:Name="lblTug" Foreground="LightGray" Content="TUG" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <Button x:Name="btnJetway" Grid.Column="1" Grid.Row="1" Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnJetway_Click">
+                    <Label x:Name="lblJetway" Foreground="LightGray" Content="JETWAY" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
-                <Button x:Name="btnJetway" Grid.Column="3" Grid.Row="1" Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnJetway_Click">
-                    <Label x:Name="lblJetway" Foreground="LightGray" Content="JETWAY" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button x:Name="btnRampTruck" Grid.Column="3" Grid.Row="1"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnRampTruck_Click">
+                    <Label x:Name="lblRampTruck" Foreground="LightGray" Content="STAIRS" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
                 <Button x:Name="btnFuel" Grid.Column="5" Grid.Row="1"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnFuel_Click">
-                    <Label x:Name="lblFuel" Foreground="LightGray" Content="FUEL" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Label x:Name="lblFuel" Foreground="LightGray" Content="FUEL" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
                 <Button x:Name="btnClose" Grid.Column="7" Grid.Row="1"  Width="35" Height="35" Style="{DynamicResource xdCloseButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnClose_Click"/>
-                <Button x:Name="btnOpenMainDoor" Grid.Column="1" Grid.Row="3"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnAircraftDoorMain_Click">
+                
+                <Button x:Name="btnLuggage" Grid.Column="1" Grid.Row="3"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnLuggage_Click">
+                    <Label x:Name="lblLuggage" Foreground="LightGray" Content="LUGGAGE" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+                <Button x:Name="btnPowerSupply" Grid.Column="3" Grid.Row="3"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnPowerSupply_Click">
+                    <Label x:Name="lblPowerSupply" Foreground="LightGray" Content="POWER" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+                <Button x:Name="btnCatering" Grid.Column="5" Grid.Row="3"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnCatering_Click">
+                    <Label x:Name="lblCatering" Foreground="LightGray" Content="CATERING" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+
+                <Button x:Name="btnOpenMainDoor" Grid.Column="1" Grid.Row="5"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnAircraftDoorMain_Click">
                     <TextBlock x:Name="lblMainDoor" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" Block.TextAlignment="Center">MAIN<LineBreak/>DOOR</TextBlock>
                 </Button>
-                <Button x:Name="btnOpenEmergencyDoor" Grid.Column="3" Grid.Row="3" Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnAircraftDoorEmergency_Click">
-                    <TextBlock x:Name="lblEmergencyDoor" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" Block.TextAlignment="Center">EMERGENCY<LineBreak/>DOOR</TextBlock>
+                <Button x:Name="btnOpenEmergencyDoor" Grid.Column="3" Grid.Row="5" Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnAircraftDoorEmergency_Click">
+                    <TextBlock x:Name="lblEmergencyDoor" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" Block.TextAlignment="Center">REAR<LineBreak/>DOOR</TextBlock>
                 </Button>
-                <Button x:Name="btnOpenCargoDoor" Grid.Column="5" Grid.Row="3"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnAircraftDoorCargo_Click">
+                <Button x:Name="btnOpenCargoDoor" Grid.Column="5" Grid.Row="5"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnAircraftDoorCargo_Click">
                     <TextBlock x:Name="lblCargoDoor" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" Block.TextAlignment="Center">CARGO<LineBreak/>DOOR</TextBlock>
                 </Button>
-                <Button x:Name="btnParkingBrake" Grid.Column="1" Grid.Row="5"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnParkingBrake_Click">
-                    <TextBlock x:Name="lblParkingBrake" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" Block.TextAlignment="Center">PARKING<LineBreak/>BRAKE</TextBlock>
+
+                <Button x:Name="btnTug" Grid.Column="1" Grid.Row="7"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnTug_Click">
+                    <Label x:Name="lblTug" Foreground="LightGray" Content="TUG" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
-                <Slider x:Name="speedSlider" Margin="10,15,10,5"  Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="3" ValueChanged="SpeedSlider_ValueChanged">
+                <Slider x:Name="speedSlider" Margin="10,15,10,5"  Grid.Column="3" Grid.Row="7" ValueChanged="SpeedSlider_ValueChanged">
                     <Slider.LayoutTransform>
                         <ScaleTransform CenterX="0" CenterY="0" ScaleX="1" ScaleY="0.75"/>
                     </Slider.LayoutTransform>
                 </Slider>
-                <TextBlock x:Name="textSlider" Margin="0,5,0,0" Text="TUG SPEED" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="9" Foreground="LightGray" FontFamily="Arial"/>
-                <Label x:Name="lblSimStatus" Grid.Column="0" Grid.Row = "7" Grid.ColumnSpan="9" Content="DISCONNECTED" FontSize="9" Foreground="LightGray" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock x:Name="textSlider" Margin="0,5,0,0" Text="TUG SPEED" Grid.Column="3" Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="9" Foreground="LightGray" FontFamily="Arial"/>
+                <Button x:Name="btnParkingBrake" Grid.Column="5" Grid.Row="7"  Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnParkingBrake_Click">
+                    <TextBlock x:Name="lblParkingBrake" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" Block.TextAlignment="Center">PARKING<LineBreak/>BRAKE</TextBlock>
+                </Button>
+
+                <Label x:Name="lblSimStatus" Grid.Column="0" Grid.Row = "9" Grid.ColumnSpan="9" Content="DISCONNECTED" FontSize="9" Foreground="LightGray" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Grid>
         </Viewbox>
         <Viewbox Grid.Row="1" Viewbox.Stretch="Uniform">

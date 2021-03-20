@@ -25,7 +25,7 @@ namespace PushbackHelper
             myManager = manager;
             myManager.ConnectStatusEvent += MyManager_ConnectStatusEvent;
             myManager.DataRxEvent += MyManager_DataRxEvent;
-            fastTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(1) };
+            fastTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(10) };
             fastTimer.Tick += FastTimer_Tick;
             parkingBrakeSet = false;
             SpeedFactor = 25;
@@ -47,7 +47,7 @@ namespace PushbackHelper
         {
             if (TugActive)
             {
-                myManager.TransmitEvent(EventsEnum.KEY_PUSHBACK_SET, 1);
+                myManager.TransmitEvent(EventsEnum.TOGGLE_PUSHBACK, 1);
                 myManager.SetData(DefinitionsEnum.PushbackWait, 0);
                 fastTimer.Stop();
                 SetTugSpeed(0);
@@ -59,7 +59,7 @@ namespace PushbackHelper
             if (!TugActive)
             {
                 StartTugMode();
-                myManager.TransmitEvent(EventsEnum.KEY_PUSHBACK_SET, 1);
+                myManager.TransmitEvent(EventsEnum.TOGGLE_PUSHBACK, 1);
             }
         }
         public void Stop()
@@ -187,7 +187,7 @@ namespace PushbackHelper
                 heading += direction;
                 heading %= 360;
 
-                myManager.TransmitEvent(EventsEnum.KEY_TUG_HEADING, 11930465 * heading);
+                myManager.TransmitEvent(EventsEnum.SET_TUG_HEADING, 11930465 * heading);
                 myManager.SetData(DefinitionsEnum.RotationY, tugRotationActual * .002 * tugSpeed);
             }
         }
