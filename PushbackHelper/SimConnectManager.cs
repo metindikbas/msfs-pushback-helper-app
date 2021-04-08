@@ -7,10 +7,11 @@ namespace PushbackHelper
 {
     class SimConnectManager
     {
+        private HwndSource gHs;
+        private IntPtr lHwnd;
         private bool _connected;
         public bool Connected { get { return _connected; } private set { _connected = value; ConnectStatusEvent?.Invoke(Connected); } }
         private SimConnect simClient;
-        private HwndSource gHs;
         private readonly DispatcherTimer connectTimer;
         public event DataReceived DataRxEvent;
         public event ConnectStatusChanged ConnectStatusEvent;
@@ -18,7 +19,7 @@ namespace PushbackHelper
         public SimConnectManager()
         {
             Connected = false;
-            connectTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(10) };
+            connectTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             connectTimer.Tick += ConnectTimer_Tick;
         }
         public void Start()
@@ -44,9 +45,14 @@ namespace PushbackHelper
         {
             try
             {
-                if (Connected) return;
+                if (Connected)
+                {
+                    connectTimer.Stop();
+                    return;
+                }
+
                 WindowInteropHelper lWih = new WindowInteropHelper(System.Windows.Application.Current.MainWindow);
-                IntPtr lHwnd = lWih.Handle;
+                lHwnd = lWih.Handle;
                 gHs = HwndSource.FromHwnd(lHwnd);
                 gHs.AddHook(new HwndSourceHook(WndProc));
 

@@ -142,7 +142,7 @@
                     <RowDefinition Height="24"/>
                 </Grid.RowDefinitions>
                 
-                <Border BorderBrush="Black" Background="Transparent" MouseDown="Border_MouseDown" Grid.ColumnSpan="9" Grid.RowSpan="7"/>
+                <Border BorderBrush="Black" Background="Transparent" MouseDown="Border_MouseDown" Grid.ColumnSpan="9" Grid.RowSpan="9"/>
 
                 <Button x:Name="btnJetway" Grid.Column="1" Grid.Row="1" Width="80" Height="35" Style="{DynamicResource xdButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnJetway_Click">
                     <Label x:Name="lblJetway" Foreground="LightGray" Content="JETWAY" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>

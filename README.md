@@ -6,7 +6,7 @@ Pushback Helper is an application to make push back operations easier.
 
 - No need to contact ATC for the jetway connection
 - No need to contact ATC for using push back
-- No need to contact ATC for calling fuel truck
+- No need to contact ATC for calling fuel truck, catering, luggage, or power cart service
 - Open and close aircraft doors easily (A320, 787, 747 only)
 
 <img src="https://user-images.githubusercontent.com/18532405/104063638-7bf79980-51ca-11eb-8163-113abfc6895b.png"/>
@@ -62,6 +62,13 @@ If you wish to auto-launch the app upon the start of MSFS, follow these steps:
 - To start or stop push back simply click the **Tug** button.
 - The tug will wait in place until either **Forward** or **Reverse** is selected (remove the parking brake first or it will move slowly).
 - Once moving, select **Left** or **Right** to steer the tug.
+- When done, click **Stop**. Apply the parking brake. Click the **Tug** button again to remove the tug.
+
+## v2.5 CHANGES
+- [FEATURE] Adds more ground services
+- [FEATURE] App no longer steals focus from MSFS so audio remains
+- [FEATURE] App will auto exit upon exit of MSFS
+- [BUGFIX] Adds better exception handling
 
 ## v2.4 Changes
 - [FEATURE] Adds tug speed setting
