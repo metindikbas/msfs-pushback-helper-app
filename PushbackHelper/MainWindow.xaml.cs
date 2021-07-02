@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using PushbackHelper.MSFSLocalService;
 
 namespace PushbackHelper
 {
@@ -17,6 +18,7 @@ namespace PushbackHelper
         private readonly TugManager tugManager;
         private readonly ExitManager exitManager;
         private readonly ServicesManager servicesManager;
+        private readonly SimLocalService simLocalService;
         private bool ConnectedOnce;
 
         public MainWindow()
@@ -91,16 +93,21 @@ namespace PushbackHelper
                 btnLeft.IsEnabled = false;
                 btnRight.IsEnabled = false;
                 simConnectManager.Start();
+
+                simLocalService = new SimLocalService();
+                simLocalService.ParkingBrakeStateChanged += SimLocalService_ParkingBrakeStateChanged;
             }
             catch
             {
                 MessageBox.Show("Unable to initialize SimConnect manager", "Exception Caught", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             SetHeight(sizeInfo.NewSize.Height);
         }
+
         public void ExitApp()
         {
             try
@@ -118,6 +125,7 @@ namespace PushbackHelper
                 tugManager.Disable();
                 simConnectManager.Stop();
                 listener.UnHookKeyboard();
+                simLocalService?.Dispose();
             }
             catch (Exception)
             {
@@ -125,6 +133,7 @@ namespace PushbackHelper
             }
             Close();
         }
+
         private void SetHeight(double height)
         {
             if (height < 120)
@@ -140,9 +149,17 @@ namespace PushbackHelper
             else
             {
                 Height = height;
-                Width = height * 15/24;
+                Width = height * 15 / 24;
             }
         }
+
+        private void SetParkBrake(bool active)
+        {
+            lblParkingBrake.Foreground = active
+                ? new SolidColorBrush(Colors.Red)
+                : new SolidColorBrush(Colors.LightGray);
+        }
+
         private void SimConnectManager_ConnectStatusEvent(bool Connected)
         {
             if (Connected)
@@ -150,18 +167,20 @@ namespace PushbackHelper
                 ConnectedOnce = true;
                 lblSimStatus.Content = "CONNECTED";
                 lblSimStatus.Foreground = new SolidColorBrush(Colors.GreenYellow);
+                simLocalService.Connect();
             }
             else
             {
                 lblSimStatus.Content = "DISCONNECTED";
                 lblSimStatus.Foreground = new SolidColorBrush(Colors.Red);
 
-                if(ConnectedOnce == true)
+                if (ConnectedOnce == true)
                 {
                     ExitApp();
                 }
             }
         }
+
         private void Listener_OnKeyPressed(object sender, KeyPressedArgs e)
         {
             if (e.KeyPressed == Key.PageUp && WindowState == WindowState.Normal)
@@ -175,13 +194,16 @@ namespace PushbackHelper
                 base.OnStateChanged(e);
             }
         }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
         }
+
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             ExitApp();
         }
+
         private void TugManager_TugStatusEvent(TugManager.TugStatus Status)
         {
             try
@@ -253,6 +275,7 @@ namespace PushbackHelper
             }
             catch (Exception) { }
         }
+
         private void ExitManager_ExitEvent(ExitManager.ExitType Exit, bool ExitIsOpen)
         {
             btnOpenMainDoor.IsEnabled = exitManager.MainExitEnabled ?? false;
@@ -272,21 +295,27 @@ namespace PushbackHelper
                     break;
             }
         }
+
+        private void SimLocalService_ParkingBrakeStateChanged(object sender, ParkingBrakeStateChangedEventArgs e)
+        {
+            SetParkBrake(e.Active);
+        }
+
         private void ServicesManager_ParkingBrakeEvent(bool value)
         {
-            if(value)
-                lblParkingBrake.Foreground = new SolidColorBrush(Colors.Red);
-            else
-                lblParkingBrake.Foreground = new SolidColorBrush(Colors.LightGray);
+            SetParkBrake(value);
         }
+
         private void BtnJetway_Click(object sender, RoutedEventArgs e)
         {
             servicesManager.ToggleJetway();
         }
+
         private void BtnFuel_Click(object sender, RoutedEventArgs e)
         {
             servicesManager.ToggleFuel();
         }
+
         private void BtnTug_Click(object sender, RoutedEventArgs e)
         {
             if (tugManager.TugActive)
@@ -294,63 +323,78 @@ namespace PushbackHelper
             else
                 tugManager.Enable();
         }
+
         private void BtnForward_Click(object sender, RoutedEventArgs e)
         {
             tugManager.Forward();
         }
+
         private void BtnReverse_Click(object sender, RoutedEventArgs e)
         {
             tugManager.Reverse();
         }
+
         private void BtnRight_Click(object sender, RoutedEventArgs e)
         {
             tugManager.Right();
         }
+
         private void BtnLeft_Click(object sender, RoutedEventArgs e)
         {
             tugManager.Left();
         }
+
         private void BtnAircraftDoorMain_Click(object sender, RoutedEventArgs e)
         {
             exitManager.ToggleExit(ExitManager.ExitType.Main);
         }
+
         private void BtnAircraftDoorEmergency_Click(object sender, RoutedEventArgs e)
         {
             exitManager.ToggleExit(ExitManager.ExitType.Emergency);
         }
+
         private void BtnAircraftDoorCargo_Click(object sender, RoutedEventArgs e)
         {
             exitManager.ToggleExit(ExitManager.ExitType.Cargo);
         }
+
         private void BtnLuggage_Click(object sender, RoutedEventArgs e)
         {
             servicesManager.RequestLuggage();
         }
+
         private void BtnPowerSupply_Click(object sender, RoutedEventArgs e)
         {
             servicesManager.RequestPowerSupply();
         }
+
         private void BtnCatering_Click(object sender, RoutedEventArgs e)
         {
             servicesManager.RequestCatering();
         }
+
         private void BtnRampTruck_Click(object sender, RoutedEventArgs e)
         {
             servicesManager.ToggleRampTruck();
         }
+
         private void BtnParkingBrake_Click(object sender, RoutedEventArgs e)
         {
             servicesManager.ToggleParkingBrake();
         }
+
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
         }
+
         private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             tugManager.SetSpeed((uint)e.NewValue);
         }
+
         protected override void OnSourceInitialized(EventArgs e)
         {
             try
@@ -370,6 +414,5 @@ namespace PushbackHelper
 
         [DllImport("user32.dll")]
         public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
     }
 }
