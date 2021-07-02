@@ -59,6 +59,9 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
+    <Reference Include="fsuipcClient, Version=3.2.6.371, Culture=neutral, PublicKeyToken=7e7559b53e380b17, processorArchitecture=MSIL">
+      <HintPath>..\packages\FSUIPCClientDLL.3.2.6-beta\lib\net40\fsuipcClient.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.FlightSimulator.SimConnect, Version=11.0.62651.3, Culture=neutral, PublicKeyToken=baf445ffb3a06b5c, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Microsoft.FlightSimulator.SimConnect.dll</HintPath>
@@ -78,10 +81,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Definitions.cs" />
+    <Compile Include="EventExtentions.cs" />
     <Compile Include="ExitManager.cs" />
-    <Compile Include="ServicesManager.cs" />
-    <Compile Include="SimConnectManager.cs" />
-    <Compile Include="TugManager.cs" />
+      <Compile Include="ServicesManager.cs" />
+      <Compile Include="SimConnectManager.cs" />
+      <Compile Include="TugManager.cs" />
+      <Compile Include="MSFSLocalService\ConnectionStateChangedEventArgs.cs" />
+      <Compile Include="MSFSLocalService\LocalVariableChangedEventArgs.cs" />
+      <Compile Include="MSFSLocalService\ParkingBrakeStateChangedEventArgs.cs" />
+      <Compile Include="MSFSLocalService\SwitchDefinitions.cs" />
+      <Compile Include="MSFSLocalService\SwitchType.cs" />
+      <Compile Include="MSFSLocalService\SimLocalService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -115,6 +125,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="App.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -147,6 +158,9 @@
   <ItemGroup>
     <Content Include="favicon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FSUIPC_WAPID.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Microsoft.FlightSimulator.SimConnect.dll" />
     <Content Include="README.txt">
