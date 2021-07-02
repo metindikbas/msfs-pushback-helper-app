@@ -4,6 +4,12 @@ Release date: 2021/04/12
 ### INSTALLATION ###
 Extract all files to any location and run PushbackHelper.exe. There is no need to put into the community folder location.
 
+To work with local variables like the parking brakes of the A32NX from FlyByWire, you need to download the `FSUIPC-WASM` from
+Pete & John Dowson.
+
+- Download the FSUIPC-WASMv0.5.1.zip or higher from here http://www.fsuipc.com/download/FSUIPC-WASMv0.5.1.zip and extract it
+- Extract the `fsuipc-lvar-module.zip` to your community folder
+
 ### USAGE ###
 - To show/hide UI press the Page Up key
 - To connect or disconnect jetway simply click the JETWAY button.

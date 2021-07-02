@@ -23,6 +23,12 @@ Pushback Helper is an application to make push back operations easier.
 ## Installation
 Extract all files to any location and run PushbackHelper.exe. There is no need to put into the community folder location.
 
+To work with local variables like the parking brakes of the A32NX from FlyByWire, you need to download the `FSUIPC-WASM` module from 
+Pete & John Dowson http://www.fsuipc.com. 
+
+- Download the [FSUIPC-WASMv0.5.1.zip](http://www.fsuipc.com/download/FSUIPC-WASMv0.5.1.zip) or higher and extract it
+- Extract the `fsuipc-lvar-module.zip` to your community folder
+
 ## Auto-launch
 If you wish to auto-launch the app upon the start of MSFS, follow these steps:
 1) Navigate to the MSFS installation folder and then subfolder LocalCache
@@ -63,6 +69,10 @@ If you wish to auto-launch the app upon the start of MSFS, follow these steps:
 - The tug will wait in place until either **Forward** or **Reverse** is selected (remove the parking brake first or it will move slowly).
 - Once moving, select **Left** or **Right** to steer the tug.
 - When done, click **Stop**. Apply the parking brake. Click the **Tug** button again to remove the tug.
+
+## NEW CHANGES
+- [FEATURE] Add service to work with local variables from MSFS
+- [FEATURE] Map parking brakes of A32NX from FlyByWire
 
 ## v2.5 CHANGES
 - [FEATURE] Adds more ground services
