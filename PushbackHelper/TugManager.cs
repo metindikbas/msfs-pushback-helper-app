@@ -8,17 +8,17 @@ namespace PushbackHelper
     class TugManager
     {
         private TugStatus _status;
-        public TugStatus Status { get { return _status; } private set { _status = value; TugStatusEvent?.Invoke(value); } }
+        public TugStatus Status { get { return _status; } private set { _status = value; TugStatusEvent?.Invoke(value, TugRotationSetting); } }
         public event TugStatusChanged TugStatusEvent;
         public bool TugActive { get { return Status != TugStatus.Disabled; } }
         private SimConnectManager myManager;
         private double tugHeading;
         private double tugSpeed;
-        private double tugRotationActual;
-        private double tugRotationSetting;
         public uint SpeedFactor { get; private set; }
+        public double TugRotationSetting { get; private set; } = 0;
         private bool parkingBrakeSet;
         private readonly DispatcherTimer fastTimer;
+
         public TugManager(SimConnectManager manager)
         {
             Status = TugStatus.Disabled;
@@ -66,6 +66,7 @@ namespace PushbackHelper
         {
             SetTugSpeed(0);
         }
+
         public void Forward()
         {
             switch (Status)
@@ -178,9 +179,9 @@ namespace PushbackHelper
             else
             {
                 uint direction = 0;
-                if (tugRotationSetting > 0)
+                if (TugRotationSetting > 0)
                     direction = 270;
-                else if (tugRotationSetting < 0)
+                else if (TugRotationSetting < 0)
                     direction = 90;
 
                 var heading = (uint)tugHeading;
@@ -188,7 +189,7 @@ namespace PushbackHelper
                 heading %= 360;
 
                 myManager.TransmitEvent(EventsEnum.SET_TUG_HEADING, 11930465 * heading);
-                myManager.SetData(DefinitionsEnum.RotationY, tugRotationActual * .002 * tugSpeed);
+                myManager.SetData(DefinitionsEnum.RotationY, TugRotationSetting * .002 * tugSpeed);
             }
         }
         private async void SetTugSpeed(double targetSpeed)
@@ -220,14 +221,50 @@ namespace PushbackHelper
         }
         private async void SetTugRotation(double targetRotation)
         {
-            double startRotation = tugRotationActual;
-            tugRotationSetting = targetRotation;
-            for (int i = 9; i > 0; i--)
+            // Initial check if there is work to do
+            if (TugRotationSetting == 0 && targetRotation == 0)
             {
-                tugRotationActual = targetRotation + (startRotation - targetRotation) * i / 10;
+                return;
+            }
+
+            // Init
+
+            double stepSize = targetRotation / 10;
+
+            double startRotation = TugRotationSetting;
+            TugStatus originalStatus = Status;
+
+            // Check if we've exceeded the max already
+            if (Math.Abs(TugRotationSetting + targetRotation) > 3)
+            {
+                return;
+            }
+            else
+            {
+                if (targetRotation == 0)
+                {
+                    stepSize = -TugRotationSetting / 10;
+                    TugRotationSetting = 0;
+                }
+                else
+                {
+                    TugRotationSetting += targetRotation;
+                }
+            }
+
+            double newTargetRotation = TugRotationSetting;
+
+            Status = TugStatus.ProcessingTurn;
+
+            // Gradually - in 10 steps
+
+            for (int i = 1; i <= 10; i++) 
+            {
+                TugRotationSetting = startRotation + (stepSize * i);
                 await Task.Delay(200);
             }
-            tugRotationActual = targetRotation;
+
+            Status = originalStatus;
         }
         private void FastTimer_Tick(object sender, EventArgs e)
         {
@@ -243,14 +280,15 @@ namespace PushbackHelper
             }
         }
 
-        public delegate void TugStatusChanged(TugStatus Status);
+        public delegate void TugStatusChanged(TugStatus Status, double TugRotationSpeed);
 
         public enum TugStatus
         {
             Disabled,
             Waiting,
             Forward,
-            Reverse
+            Reverse,
+            ProcessingTurn
         }
     }
 }

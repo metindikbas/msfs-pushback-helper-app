@@ -207,7 +207,29 @@
                     <RowDefinition Height="60"/>
                 </Grid.RowDefinitions>
 
-                <Border BorderBrush="Black" Background="Transparent" MouseDown="Border_MouseDown" Grid.ColumnSpan="3" Grid.RowSpan="3"/>
+                <Border BorderBrush="Black" Background="Transparent" MouseDown="Border_MouseDown" Grid.ColumnSpan="3" Grid.RowSpan="3">
+                    <Ellipse x:Name="circLeftLow" HorizontalAlignment="Left" Height="8" Margin="57,166,0,0" Fill="Black" Stroke="DarkGray" VerticalAlignment="Top" Width="8"/>
+                </Border>
+                <Border BorderBrush="Black" Background="Transparent" MouseDown="Border_MouseDown" Grid.ColumnSpan="3" Grid.RowSpan="3">
+                    <Ellipse x:Name="circLeftMedium" HorizontalAlignment="Left" Height="8" Margin="55,146,0,0" Fill="Black" Stroke="DarkGray" VerticalAlignment="Top" Width="8"/>
+                </Border>
+                <Border BorderBrush="Black" Background="Transparent" MouseDown="Border_MouseDown" Grid.ColumnSpan="3" Grid.RowSpan="3">
+                    <Ellipse x:Name="circLeftHigh" HorizontalAlignment="Left" Height="8" Margin="57,126,0,0" Fill="Black" Stroke="DarkGray" VerticalAlignment="Top" Width="8"/>
+                </Border>
+                <Border BorderBrush="Black" Background="Transparent" MouseDown="Border_MouseDown" Grid.ColumnSpan="3" Grid.RowSpan="3">
+                    <Ellipse x:Name="circRightLow" HorizontalAlignment="Left" Height="8" Margin="236,166,0,0" Fill="Black" Stroke="DarkGray" VerticalAlignment="Top" Width="8"/>
+                </Border>
+                <Border BorderBrush="Black" Background="Transparent" MouseDown="Border_MouseDown" Grid.ColumnSpan="3" Grid.RowSpan="3">
+                    <Ellipse x:Name="circRightMedium" HorizontalAlignment="Left" Height="8" Margin="238,146,0,0" Fill="Black" Stroke="DarkGray" VerticalAlignment="Top" Width="8"/>
+                </Border>
+                <Border BorderBrush="Black" Background="Transparent" MouseDown="Border_MouseDown" Grid.ColumnSpan="3" Grid.RowSpan="3">
+                    <Ellipse x:Name="circRightHigh" HorizontalAlignment="Left" Height="8" Margin="236,126,0,0" Fill="Black" Stroke="DarkGray" VerticalAlignment="Top" Width="8"/>
+                </Border>
+
+                <Border BorderBrush="Black" Background="Transparent" MouseDown="Border_MouseDown" Grid.ColumnSpan="3" Grid.RowSpan="3">
+                    <Label x:Name="lblRotationValue" HorizontalAlignment="Left" Foreground="LightGray" Height="30" Margin="10,265,0,0" VerticalAlignment="Top" Width="50"/>
+                </Border>
+                
                 <Label x:Name="lblPushbackStatus" Grid.Column="1" Grid.Row="1" Content="DISABLED" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="9" Foreground="LightGray" FontFamily="Arial"/>
                 <Button x:Name="btnLeft" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Width="119" Height="53" Style="{DynamicResource xdCurvedButtonStyle}" IsTabStop="False" Cursor="Hand" Click="BtnLeft_Click">
                     <Button.LayoutTransform>
