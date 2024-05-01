@@ -1,5 +1,5 @@
-PUSHBACK HELPER v2.5
-Release date: 2021/04/12
+PUSHBACK HELPER v2.6
+Release date: 2024/05/01
 
 ### INSTALLATION ###
 Extract all files to any location and run PushbackHelper.exe. There is no need to put into the community folder location.
@@ -18,6 +18,10 @@ Pete & John Dowson.
 - The tug will wait in place until either FORWARD or REVERSE is selected (remove the parking brake first or it will move slowly).
 - Once moving, select LEFT or RIGHT to steer the tug.
 - When done, click STOP. Apply the parking brake. Click the TUG button again to remove the tug.
+- There are indicators near LEFT and RIGHT buttons to show current rotation speed. Click the button on the side you are already turning to increase speed and click the other side to decrease.
+
+### v2.6 CHANGES ###
+- [FEATURE] Added multiple rotation speeds to left and right
 
 ### v2.5 CHANGES ###
 - [FEATURE] Adds more ground services
@@ -66,3 +70,4 @@ https://www.linkedin.com/in/metindikbas
 gustavosjp - https://github.com/gustavosjp
 HydronicDev - https://github.com/HydronicDev
 alex-johnson - https://github.com/alex-johnson
+aphalon - https://github.com/aphalon
