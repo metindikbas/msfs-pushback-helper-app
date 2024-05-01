@@ -261,7 +261,7 @@ namespace PushbackHelper
             for (int i = 1; i <= 10; i++) 
             {
                 TugRotationSetting = startRotation + (stepSize * i);
-                await Task.Delay(200);
+                await Task.Delay(50);
             }
 
             Status = originalStatus;

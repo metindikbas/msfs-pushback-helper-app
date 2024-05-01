@@ -68,16 +68,20 @@ If you wish to auto-launch the app upon the start of MSFS, follow these steps:
 - To start or stop push back simply click the **Tug** button.
 - The tug will wait in place until either **Forward** or **Reverse** is selected (remove the parking brake first or it will move slowly).
 - Once moving, select **Left** or **Right** to steer the tug.
+- There are indicators (3 dots) near the **Left and **Right** buttons to show current rotation speed while turning.
+- If you continue clicking the direction you are turning **Left** or **Right**, the rotation speed will increase.
+- To decrease rotation speed, simply click the other direction button **Left** or **Right**
 - When done, click **Stop**. Apply the parking brake. Click the **Tug** button again to remove the tug.
 
 ## NEW CHANGES
-- [FEATURE] Add service to work with local variables from MSFS
-- [FEATURE] Map parking brakes of A32NX from FlyByWire
+- [FEATURE] Added multiple rotation speeds to left and right
 
 ## v2.5 CHANGES
 - [FEATURE] Adds more ground services
 - [FEATURE] App no longer steals focus from MSFS so audio remains
 - [FEATURE] App will auto exit upon exit of MSFS
+- [FEATURE] Add service to work with local variables from MSFS
+- [FEATURE] Map parking brakes of A32NX from FlyByWire
 - [BUGFIX] Adds better exception handling
 
 ## v2.4 Changes
@@ -115,3 +119,4 @@ If you wish to auto-launch the app upon the start of MSFS, follow these steps:
 - gustavosjp - https://github.com/gustavosjp
 - HydronicDev - https://github.com/HydronicDev
 - alex-johnson - https://github.com/alex-johnson
+- aphalon - https://github.com/aphalon
