@@ -110,7 +110,7 @@ If you wish to auto-launch the app upon the start of MSFS, follow these steps:
 [GNU](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 ## Creator
-- dikbas.metin@gmail.com - https://www.linkedin.com/in/metindikbas
+- https://www.linkedin.com/in/metindikbas
 
 ## Contributors
 - gustavosjp - https://github.com/gustavosjp
