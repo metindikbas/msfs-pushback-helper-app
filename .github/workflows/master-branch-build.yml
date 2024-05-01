@@ -17,7 +17,7 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1
     - name: Build
-      run: msbuild PushbackHelper.sln /p:Configuration=Release /p:Platform=x64 -t:Restore
+      run: msbuild PushbackHelper.sln -t:restore -p:RestorePackagesConfig=true /p:Configuration=Release /p:Platform=x64
     - name: Create ZIP file
       shell: bash
       run: |
