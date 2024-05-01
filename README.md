@@ -9,13 +9,10 @@ Pushback Helper is an application to make push back operations easier.
 - No need to contact ATC for calling fuel truck, catering, luggage, or power cart service
 - Open and close aircraft doors easily (A320, 787, 747 only)
 
-<img src="https://user-images.githubusercontent.com/18532405/104063638-7bf79980-51ca-11eb-8163-113abfc6895b.png"/>
+![Screenshot 2024-05-01 121301](https://github.com/metindikbas/msfs-pushback-helper-app/assets/5838059/9fc6ebc3-749a-4fbb-9605-aafd3ec8f3f0)
 
 ## Download link
-[Latest Release v2.5](https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/v2.5/msfs-pushback-helper-app-v2.5.zip)
-
-## Beta link
-[Latest Beta from Master Branch](https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/beta/MSFS-Pushback-Helper-App-beta.zip)
+[Latest Release v2.6](https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/v2.6/msfs-pushback-helper-app-v2.6.zip)
 
 ## Requirements
 - .NET Framework 4.7.2
@@ -68,7 +65,7 @@ If you wish to auto-launch the app upon the start of MSFS, follow these steps:
 - To start or stop push back simply click the **Tug** button.
 - The tug will wait in place until either **Forward** or **Reverse** is selected (remove the parking brake first or it will move slowly).
 - Once moving, select **Left** or **Right** to steer the tug.
-- There are indicators (3 dots) near the **Left and **Right** buttons to show current rotation speed while turning.
+- There are indicators (3 dots) near the **Left** and **Right** buttons to show current rotation speed while turning.
 - If you continue clicking the direction you are turning **Left** or **Right**, the rotation speed will increase.
 - To decrease rotation speed, simply click the other direction button **Left** or **Right**
 - When done, click **Stop**. Apply the parking brake. Click the **Tug** button again to remove the tug.
