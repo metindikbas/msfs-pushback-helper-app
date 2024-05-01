@@ -18,7 +18,6 @@ jobs:
       uses: microsoft/setup-msbuild@v1
     - name: Restore packages
       run: msbuild PushbackHelper.sln -t:restore -p:RestorePackagesConfig=true
-    - name: Create ZIP file
     - name: Build
       run: msbuild PushbackHelper.sln /p:Configuration=Release /p:Platform=x64
     - name: Create ZIP file
