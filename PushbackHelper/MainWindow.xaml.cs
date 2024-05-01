@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using FSUIPC;
 using PushbackHelper.MSFSLocalService;
 
 namespace PushbackHelper
@@ -204,7 +205,7 @@ namespace PushbackHelper
             ExitApp();
         }
 
-        private void TugManager_TugStatusEvent(TugManager.TugStatus Status)
+        private void TugManager_TugStatusEvent(TugManager.TugStatus Status, double TugRotationSetting)
         {
             try
             {
@@ -272,8 +273,116 @@ namespace PushbackHelper
                     btnLeft.IsEnabled = true;
                     btnRight.IsEnabled = true;
                 }
+                else if (Status == TugManager.TugStatus.ProcessingTurn)
+                {
+                    lblPushbackStatus.Content = "ACTIVE";
+                    lblPushbackStatus.Foreground = new SolidColorBrush(Colors.GreenYellow);
+                    lblTug.Foreground = new SolidColorBrush(Colors.GreenYellow);
+                    //lblForward.Content = "STOP";
+                    //lblForward.Foreground = new SolidColorBrush(Colors.Red);
+                    //lblReverse.Content = "STRAIGHT";
+                    //lblReverse.Foreground = new SolidColorBrush(Colors.LightGray);
+                    lblLeft.Foreground = new SolidColorBrush(Colors.DarkGray);
+                    lblRight.Foreground = new SolidColorBrush(Colors.DarkGray);
+                    btnForward.IsEnabled = true;
+                    btnReverse.IsEnabled = true;
+                    btnLeft.IsEnabled = false;
+                    btnRight.IsEnabled = false;
+                }
             }
             catch (Exception) { }
+
+            // Update the speed in the debug label 
+
+            //lblRotationValue.Content = TugRotationSetting.ToString();
+
+            if (Math.Abs(TugRotationSetting) < 1)
+            {
+                circLeftLow.Fill = new SolidColorBrush(Colors.Black);
+                circLeftLow.Stroke = new SolidColorBrush(Colors.DarkGray);
+                circLeftMedium.Fill = new SolidColorBrush(Colors.Black);
+                circLeftMedium.Stroke = new SolidColorBrush(Colors.DarkGray);
+                circLeftHigh.Fill = new SolidColorBrush(Colors.Black);
+                circLeftHigh.Stroke = new SolidColorBrush(Colors.DarkGray);
+
+                circRightLow.Fill = new SolidColorBrush(Colors.Black);
+                circRightLow.Stroke = new SolidColorBrush(Colors.DarkGray);
+                circRightMedium.Fill = new SolidColorBrush(Colors.Black);
+                circRightMedium.Stroke = new SolidColorBrush(Colors.DarkGray);
+                circRightHigh.Fill = new SolidColorBrush(Colors.Black);
+                circRightHigh.Stroke = new SolidColorBrush(Colors.DarkGray);
+                btnRight.IsEnabled = true;
+                lblRight.Foreground = new SolidColorBrush(Colors.LightGray);
+
+            }
+
+            if (TugRotationSetting > 0)
+            {
+                // Right (positive)
+                if (TugRotationSetting > 2)
+                {
+                    circRightLow.Fill = new SolidColorBrush(Colors.GreenYellow);
+                    circRightLow.Stroke = new SolidColorBrush(Colors.GreenYellow);
+                    circRightMedium.Fill = new SolidColorBrush(Colors.GreenYellow);
+                    circRightMedium.Stroke = new SolidColorBrush(Colors.GreenYellow);
+                    circRightHigh.Fill = new SolidColorBrush(Colors.GreenYellow);
+                    circRightHigh.Stroke = new SolidColorBrush(Colors.GreenYellow);
+                    btnRight.IsEnabled = false;
+                    lblRight.Foreground = new SolidColorBrush(Colors.DarkGray);
+                }
+                else if (TugRotationSetting > 1)
+                {
+                    circRightLow.Fill = new SolidColorBrush(Colors.GreenYellow);
+                    circRightLow.Stroke = new SolidColorBrush(Colors.GreenYellow);
+                    circRightMedium.Fill = new SolidColorBrush(Colors.GreenYellow);
+                    circRightMedium.Stroke = new SolidColorBrush(Colors.GreenYellow);
+                    circRightHigh.Fill = new SolidColorBrush(Colors.Black);
+                    circRightHigh.Stroke = new SolidColorBrush(Colors.DarkGray);
+                }
+                else if (TugRotationSetting > 0)
+                {
+                    circRightLow.Fill = new SolidColorBrush(Colors.GreenYellow);
+                    circRightLow.Stroke = new SolidColorBrush(Colors.GreenYellow);
+                    circRightMedium.Fill = new SolidColorBrush(Colors.Black);
+                    circRightMedium.Stroke = new SolidColorBrush(Colors.DarkGray);
+                    circRightHigh.Fill = new SolidColorBrush(Colors.Black);
+                    circRightHigh.Stroke = new SolidColorBrush(Colors.DarkGray);
+                }
+
+            }
+            else
+            {
+                // Left (negative)
+                if (TugRotationSetting < -2)
+                {
+                    circLeftLow.Fill = new SolidColorBrush(Colors.GreenYellow);
+                    circLeftLow.Stroke = new SolidColorBrush(Colors.GreenYellow);
+                    circLeftMedium.Fill = new SolidColorBrush(Colors.GreenYellow);
+                    circLeftMedium.Stroke = new SolidColorBrush(Colors.GreenYellow);
+                    circLeftHigh.Fill = new SolidColorBrush(Colors.GreenYellow);
+                    circLeftHigh.Stroke = new SolidColorBrush(Colors.GreenYellow);
+                    btnLeft.IsEnabled = false;
+                    lblLeft.Foreground = new SolidColorBrush(Colors.DarkGray);
+                }
+                else if (TugRotationSetting < -1)
+                {
+                    circLeftLow.Fill = new SolidColorBrush(Colors.GreenYellow);
+                    circLeftLow.Stroke = new SolidColorBrush(Colors.GreenYellow);
+                    circLeftMedium.Fill = new SolidColorBrush(Colors.GreenYellow);
+                    circLeftMedium.Stroke = new SolidColorBrush(Colors.GreenYellow);
+                    circLeftHigh.Fill = new SolidColorBrush(Colors.Black);
+                    circLeftHigh.Stroke = new SolidColorBrush(Colors.DarkGray);
+                }
+                else if (TugRotationSetting < 0)
+                {
+                    circLeftLow.Fill = new SolidColorBrush(Colors.GreenYellow);
+                    circLeftLow.Stroke = new SolidColorBrush(Colors.GreenYellow);
+                    circLeftMedium.Fill = new SolidColorBrush(Colors.Black);
+                    circLeftMedium.Stroke = new SolidColorBrush(Colors.DarkGray);
+                    circLeftHigh.Fill = new SolidColorBrush(Colors.Black);
+                    circLeftHigh.Stroke = new SolidColorBrush(Colors.DarkGray);
+                }
+            }
         }
 
         private void ExitManager_ExitEvent(ExitManager.ExitType Exit, bool ExitIsOpen)
