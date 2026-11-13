@@ -1,19 +1,16 @@
-PUSHBACK HELPER v2.6
-Release date: 2024/05/01
+PUSHBACK HELPER v2.7
+Release date: 2026/11/13
 
 ### REQUIREMENTS ###
-- Microsoft Flight Simulator 2024 (MSFS 2020 users should keep using v2.6)
+- Microsoft Flight Simulator 2024. It should also work with MSFS 2020; if you run into problems there, keep using v2.6.
 - .NET Framework 4.7.2
 - Microsoft Visual C++ 2015-2022 Redistributable (x64), normally already installed together with MSFS
 
 ### INSTALLATION ###
 Extract all files to any location and run PushbackHelper.exe. There is no need to put into the community folder location.
 
-To work with local variables like the parking brakes of the A32NX from FlyByWire, you need to download the `FSUIPC-WASM` from
-Pete & John Dowson.
-
-- Download the FSUIPC-WASMv0.5.1.zip or higher from here http://www.fsuipc.com/download/FSUIPC-WASMv0.5.1.zip and extract it
-- Extract the `fsuipc-lvar-module.zip` to your community folder
+No extra modules are needed. The parking brake of the Fenix A319/A320/A321, FlyByWire A32NX, Headwind A330 and
+FSLabs A32x is read directly from the aircraft through SimConnect.
 
 ### USAGE ###
 - To show/hide UI press the Page Up key
@@ -23,7 +20,17 @@ Pete & John Dowson.
 - The tug will wait in place until either FORWARD or REVERSE is selected (remove the parking brake first or it will move slowly).
 - Once moving, select LEFT or RIGHT to steer the tug.
 - When done, click STOP. Apply the parking brake. Click the TUG button again to remove the tug.
-- There are indicators near LEFT and RIGHT buttons to show current rotation speed. Click the button on the side you are already turning to increase speed and click the other side to decrease.
+- There are indicators near LEFT and RIGHT buttons to show the current turn level (1 to 3). Click the button on the side you are already turning to turn tighter and click the other side to straighten out.
+
+### v2.7 CHANGES ###
+- [FEATURE] Built with the MSFS 2024 SDK SimConnect client. It should also work with MSFS 2020; if you run into problems there, keep using v2.6.
+- [FEATURE] Reworked tug steering: turn levels 1, 2 and 3 set the tug angle (20, 40, 60 degrees). Higher levels turn tighter and slow the aircraft down instead of speeding it up.
+- [BUGFIX] The tug no longer detaches at the maximum turn level.
+- [BUGFIX] Smoother turns: the tug follows the aircraft heading every frame instead of once per second.
+- [FEATURE] Parking brake read from the aircraft's own systems on Fenix A319/A320/A321 (also set), FlyByWire A32NX, Headwind A330 and FSLabs A32x.
+- [BUGFIX] More reliable connection while the sim is loading.
+- [BUGFIX] A lost connection or sim crash is detected and the app closes instead of staying connected.
+- [BUGFIX] No more error pop-ups during pushback if the connection drops.
 
 ### v2.6 CHANGES ###
 - [FEATURE] Added multiple rotation speeds to left and right
