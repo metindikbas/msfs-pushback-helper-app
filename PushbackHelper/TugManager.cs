@@ -7,6 +7,17 @@ namespace PushbackHelper
 {
     class TugManager
     {
+        // Tug geometry: the tug pushes or pulls the nose gear at an angle to the aircraft, and the nose follows
+        // the tug at tug speed. The longitudinal speed is speed × cos(angle) and the yaw rate is
+        // speed × sin(angle) / NoseGearDistance, so a higher rotation level turns tighter without going faster.
+        // Rotation level 1, 2, 3 → tug angle 20°, 40°, 60°, kept below the towing limits of airliners.
+        private const double TugAnglePerRotationLevel = 20;
+        private const double MaxTugAngle = 60;
+        // Distance from the aircraft's reference point to the nose gear; about 14 m, between A320 and A321.
+        private const double NoseGearDistanceFeet = 45;
+        // Tug speed setting (5 to 50) to feet per second along the nose gear's path.
+        private const double SpeedToFeetPerSecond = .2;
+
         private TugStatus _status;
         public TugStatus Status { get { return _status; } private set { _status = value; TugStatusEvent?.Invoke(value, TugRotationSetting); } }
         public event TugStatusChanged TugStatusEvent;
@@ -183,19 +194,24 @@ namespace PushbackHelper
             }
             else
             {
-                uint direction = 0;
-                if (TugRotationSetting > 0)
-                    direction = 270;
-                else if (TugRotationSetting < 0)
-                    direction = 90;
+                // Same sides and signs as the former fixed 90° tug: a positive (right) setting puts the tug at
+                // heading - angle, and the yaw rate takes the sign of setting × speed.
+                double angle = TugAngleDegrees();
+                double heading = (tugHeading - angle) % 360;
+                if (heading < 0)
+                    heading += 360;
 
-                var heading = (uint)tugHeading;
-                heading += direction;
-                heading %= 360;
+                double yawRate = tugSpeed * SpeedToFeetPerSecond * Math.Sin(angle * Math.PI / 180) / NoseGearDistanceFeet;
 
-                myManager.TransmitEvent(EventsEnum.SET_TUG_HEADING, 11930465 * heading);
-                myManager.SetData(DefinitionsEnum.RotationY, TugRotationSetting * .002 * tugSpeed);
+                myManager.TransmitEvent(EventsEnum.SET_TUG_HEADING, 11930465 * (uint)heading);
+                myManager.SetData(DefinitionsEnum.RotationY, yawRate);
             }
+        }
+        /// <summary>The tug's angle to the aircraft in degrees, positive for a right setting.</summary>
+        private double TugAngleDegrees()
+        {
+            double angle = TugRotationSetting * TugAnglePerRotationLevel;
+            return Math.Max(-MaxTugAngle, Math.Min(MaxTugAngle, angle));
         }
         private async void SetTugSpeed(double targetSpeed)
         {
@@ -278,7 +294,7 @@ namespace PushbackHelper
                 myManager.SetData(DefinitionsEnum.PushbackWait, tugSpeed == 0 ? 1 : 0);
                 myManager.SetData(DefinitionsEnum.VelocityX, 0.0);
                 myManager.SetData(DefinitionsEnum.VelocityY, 0.0);
-                myManager.SetData(DefinitionsEnum.VelocityZ, tugSpeed * .2);
+                myManager.SetData(DefinitionsEnum.VelocityZ, tugSpeed * SpeedToFeetPerSecond * Math.Cos(TugAngleDegrees() * Math.PI / 180));
                 myManager.SetData(DefinitionsEnum.RotationX, 0.0);
                 myManager.SetData(DefinitionsEnum.RotationZ, 0.0);
                 SetTugHeading();

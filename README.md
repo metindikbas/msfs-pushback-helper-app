@@ -78,7 +78,9 @@ If you wish to auto-launch the app upon the start of MSFS, follow these steps:
 - [BUGFIX] SimConnect errors no longer pop up error dialogs while the tug is active
 - [BUGFIX] A broken SimConnect connection (e.g. sim crash) is detected instead of leaving the app stuck as connected
 - [BUGFIX] Tug zero values (side, vertical and roll/pitch velocity) are sent as 8-byte values matching their data definitions (they were sent as 4-byte integers)
-- [BUGFIX] Tug heading uses the aircraft heading from every sim frame instead of once per second, so the tug stays at 90° in fast turns
+- [BUGFIX] Tug heading uses the aircraft heading from every sim frame instead of once per second
+- [FEATURE] Tug geometry: rotation levels 1, 2, 3 set the tug angle to 20°, 40°, 60°. The nose keeps the tug speed, so higher levels turn tighter and slow the aircraft instead of speeding it up
+- [FEATURE] Parking brake read from the aircraft's own variable on Fenix A32x, FlyByWire A32NX, Headwind A330 and FSLabs A32x, and set on the Fenix
 
 ## v2.6 CHANGES
 - [FEATURE] Added multiple rotation speeds to left and right
