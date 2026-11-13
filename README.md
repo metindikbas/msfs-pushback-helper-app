@@ -14,7 +14,7 @@ Pushback Helper is an application for Microsoft Flight Simulator 2024 to make pu
 ![Screenshot 2024-05-01 121301](https://github.com/metindikbas/msfs-pushback-helper-app/assets/5838059/9fc6ebc3-749a-4fbb-9605-aafd3ec8f3f0)
 
 ## Download link
-[Latest Release](https://github.com/metindikbas/msfs-pushback-helper-app/releases/latest)
+[Latest Release v2.7](https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/v2.7/msfs-pushback-helper-app-v2.7.zip)
 
 It should also work with MSFS 2020. If you run into problems there, keep using [v2.6](https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/v2.6/msfs-pushback-helper-app-v2.6.zip).
 
