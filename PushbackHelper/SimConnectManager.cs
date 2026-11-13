@@ -204,9 +204,9 @@ namespace PushbackHelper
                 simClient.MapClientEventToSimEvent(EventsEnum.REQUEST_CATERING, "REQUEST_CATERING");
 
                 simClient.RequestDataOnSimObject(RequestsEnum.RefreshDataRequest, DefinitionsEnum.RefreshDataStruct, 0, SIMCONNECT_PERIOD.SECOND, SIMCONNECT_DATA_REQUEST_FLAG.CHANGED, 0, 0, 0);
-                // Heading on its own request every sim frame: the tug heading is aircraft heading ±90°, sent every 10 ms. With the
-                // 1 s heading above the tug drifted up to ~10° past 90° in fast turns, a likely cause of speed changes and the tug
-                // detaching at max rotation. Kept separate so pushback state and parking brake keep their original 1 s timing.
+                // Heading on its own request every sim frame: the tug heading is the aircraft heading minus the tug angle,
+                // sent every 10 ms, and a heading up to 1 s old let the tug drift off its angle in fast turns. Kept separate
+                // so pushback state and parking brake keep their original 1 s timing.
                 simClient.RequestDataOnSimObject(RequestsEnum.HeadingRequest, DefinitionsEnum.Heading, 0, SIMCONNECT_PERIOD.SIM_FRAME, SIMCONNECT_DATA_REQUEST_FLAG.CHANGED, 0, 0, 0);
                 simClient.RequestDataOnSimObject(RequestsEnum.ExitTypeRequest, DefinitionsEnum.ExitTypeStruct, 0, SIMCONNECT_PERIOD.SECOND, SIMCONNECT_DATA_REQUEST_FLAG.CHANGED, 0, 0, 0);
                 simClient.RequestDataOnSimObject(RequestsEnum.ExitOpenRequest, DefinitionsEnum.ExitOpenStruct, 0, SIMCONNECT_PERIOD.SECOND, SIMCONNECT_DATA_REQUEST_FLAG.CHANGED, 0, 0, 0);
