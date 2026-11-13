@@ -1,4 +1,6 @@
-﻿namespace PushbackHelper
+﻿using System.Runtime.InteropServices;
+
+namespace PushbackHelper
 {
     enum RequestsEnum
     {
@@ -6,7 +8,10 @@
         StartTugMode,
         ExitTypeRequest,
         ExitOpenRequest,
-        HeadingRequest
+        HeadingRequest,
+        AircraftTitleRequest,
+        AircraftPathRequest,
+        ParkingBrakeLVarRequest
     }
     enum DefinitionsEnum
     {
@@ -20,7 +25,9 @@
         RotationX,
         RotationY,
         RotationZ,
-        Heading
+        Heading,
+        AircraftTitle,
+        ParkingBrakeLVar
     }
     enum EventsEnum
     {
@@ -33,11 +40,19 @@
         REQUEST_FUEL,
         REQUEST_LUGGAGE,
         REQUEST_POWER_SUPPLY,
-        REQUEST_CATERING
+        REQUEST_CATERING,
+        // System event; shares the id space with the client events above.
+        AIRCRAFT_LOADED
     }
     enum NotificationGroupsEnum
     {
         Group0
+    }
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    public struct AircraftTitleStruct
+    {
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+        public string title;
     }
     public struct RefreshDataStruct
     {

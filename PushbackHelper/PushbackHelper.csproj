@@ -87,6 +87,7 @@
     <Compile Include="Definitions.cs" />
     <Compile Include="EventExtentions.cs" />
     <Compile Include="ExitManager.cs" />
+    <Compile Include="ParkingBrakeProfiles.cs" />
     <Compile Include="ServicesManager.cs" />
     <Compile Include="SimConnectManager.cs" />
     <Compile Include="TugManager.cs" />

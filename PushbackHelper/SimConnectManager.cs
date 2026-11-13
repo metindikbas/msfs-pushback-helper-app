@@ -181,6 +181,15 @@ namespace PushbackHelper
                 simClient.RegisterDataDefineStruct<double>(DefinitionsEnum.RotationY);
                 simClient.RegisterDataDefineStruct<double>(DefinitionsEnum.RotationZ);
 
+                // The aircraft, for aircraft with a parking brake of their own (ParkingBrakeProfiles).
+                simClient.AddToDataDefinition(DefinitionsEnum.AircraftTitle, "TITLE", null, SIMCONNECT_DATATYPE.STRING256, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+                simClient.RegisterDataDefineStruct<AircraftTitleStruct>(DefinitionsEnum.AircraftTitle);
+                // Filled by WatchLVar when the aircraft needs it; registered here once.
+                simClient.RegisterDataDefineStruct<double>(DefinitionsEnum.ParkingBrakeLVar);
+                simClient.OnRecvEventFilename += SimClient_OnRecvEventFilename;
+                simClient.OnRecvSystemState += SimClient_OnRecvSystemState;
+                simClient.SubscribeToSystemEvent(EventsEnum.AIRCRAFT_LOADED, "AircraftLoaded");
+
                 simClient.OnRecvSimobjectData += SimClient_OnRecvSimobjectData;
 
                 simClient.MapClientEventToSimEvent(EventsEnum.TOGGLE_PUSHBACK, "TOGGLE_PUSHBACK");
@@ -201,6 +210,8 @@ namespace PushbackHelper
                 simClient.RequestDataOnSimObject(RequestsEnum.HeadingRequest, DefinitionsEnum.Heading, 0, SIMCONNECT_PERIOD.SIM_FRAME, SIMCONNECT_DATA_REQUEST_FLAG.CHANGED, 0, 0, 0);
                 simClient.RequestDataOnSimObject(RequestsEnum.ExitTypeRequest, DefinitionsEnum.ExitTypeStruct, 0, SIMCONNECT_PERIOD.SECOND, SIMCONNECT_DATA_REQUEST_FLAG.CHANGED, 0, 0, 0);
                 simClient.RequestDataOnSimObject(RequestsEnum.ExitOpenRequest, DefinitionsEnum.ExitOpenStruct, 0, SIMCONNECT_PERIOD.SECOND, SIMCONNECT_DATA_REQUEST_FLAG.CHANGED, 0, 0, 0);
+                simClient.RequestDataOnSimObject(RequestsEnum.AircraftTitleRequest, DefinitionsEnum.AircraftTitle, 0, SIMCONNECT_PERIOD.SECOND, SIMCONNECT_DATA_REQUEST_FLAG.CHANGED, 0, 0, 0);
+                simClient.RequestSystemState(RequestsEnum.AircraftPathRequest, "AircraftLoaded");
             }
             catch (Exception ex)
             {
@@ -209,6 +220,49 @@ namespace PushbackHelper
                     Trace.WriteLine($"[PushbackHelper] SimConnect setup failed: {ex.Message}");
                 CloseClient();
             }
+        }
+
+        /// <summary>Reads the local variable through the ParkingBrakeLVar definition, replacing what it read before.</summary>
+        public void WatchLVar(string lvar)
+        {
+            if (!Connected || simClient == null) return;
+            try
+            {
+                simClient.RequestDataOnSimObject(RequestsEnum.ParkingBrakeLVarRequest, DefinitionsEnum.ParkingBrakeLVar, 0, SIMCONNECT_PERIOD.NEVER, SIMCONNECT_DATA_REQUEST_FLAG.DEFAULT, 0, 0, 0);
+                simClient.ClearDataDefinition(DefinitionsEnum.ParkingBrakeLVar);
+                simClient.AddToDataDefinition(DefinitionsEnum.ParkingBrakeLVar, "L:" + lvar, "number", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+                simClient.RequestDataOnSimObject(RequestsEnum.ParkingBrakeLVarRequest, DefinitionsEnum.ParkingBrakeLVar, 0, SIMCONNECT_PERIOD.SECOND, SIMCONNECT_DATA_REQUEST_FLAG.CHANGED, 0, 0, 0);
+                consecutiveCallFailures = 0;
+            }
+            catch (Exception ex)
+            {
+                HandleCallFailure($"WatchLVar {lvar}", ex);
+            }
+        }
+        public void UnwatchLVar()
+        {
+            if (!Connected || simClient == null) return;
+            try
+            {
+                simClient.RequestDataOnSimObject(RequestsEnum.ParkingBrakeLVarRequest, DefinitionsEnum.ParkingBrakeLVar, 0, SIMCONNECT_PERIOD.NEVER, SIMCONNECT_DATA_REQUEST_FLAG.DEFAULT, 0, 0, 0);
+                simClient.ClearDataDefinition(DefinitionsEnum.ParkingBrakeLVar);
+                consecutiveCallFailures = 0;
+            }
+            catch (Exception ex)
+            {
+                HandleCallFailure("UnwatchLVar", ex);
+            }
+        }
+
+        private void SimClient_OnRecvEventFilename(SimConnect sender, SIMCONNECT_RECV_EVENT_FILENAME data)
+        {
+            if (data.uEventID == (uint)EventsEnum.AIRCRAFT_LOADED)
+                AircraftPathEvent?.Invoke(data.szFileName);
+        }
+        private void SimClient_OnRecvSystemState(SimConnect sender, SIMCONNECT_RECV_SYSTEM_STATE data)
+        {
+            if (data.dwRequestID == (uint)RequestsEnum.AircraftPathRequest)
+                AircraftPathEvent?.Invoke(data.szString);
         }
 
         private void SimClient_OnRecvSimobjectData(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA data)
@@ -259,5 +313,7 @@ namespace PushbackHelper
 
         public delegate void DataReceived(RequestsEnum request, SIMCONNECT_RECV_SIMOBJECT_DATA data);
         public delegate void ConnectStatusChanged(bool Connected);
+        public delegate void AircraftPathChanged(string path);
+        public event AircraftPathChanged AircraftPathEvent;
     }
 }

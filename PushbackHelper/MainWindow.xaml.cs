@@ -413,6 +413,7 @@ namespace PushbackHelper
         private void ServicesManager_ParkingBrakeEvent(bool value)
         {
             SetParkBrake(value);
+            tugManager.SetParkingBrake(value);
         }
 
         private void BtnJetway_Click(object sender, RoutedEventArgs e)

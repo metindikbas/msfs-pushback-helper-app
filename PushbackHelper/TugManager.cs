@@ -111,6 +111,21 @@ namespace PushbackHelper
                 SetTugRotation(1);
             }
         }
+        /// <summary>The parking brake as ServicesManager reads it, standard or the aircraft's own.</summary>
+        public void SetParkingBrake(bool on)
+        {
+            if (parkingBrakeSet == on) return;
+            parkingBrakeSet = on;
+            switch (Status)
+            {
+                case TugStatus.Forward:
+                    SetTugSpeed(SpeedFactor);
+                    break;
+                case TugStatus.Reverse:
+                    SetTugSpeed(-SpeedFactor);
+                    break;
+            }
+        }
         private void MyManager_ConnectStatusEvent(bool Connected)
         {
             try
@@ -131,20 +146,6 @@ namespace PushbackHelper
                 {
                     RefreshDataStruct receivedData = (RefreshDataStruct)data.dwData[0];
                     tugHeading = receivedData.trueHeading;
-
-                    if (parkingBrakeSet != receivedData.parkingBrakeState)
-                    {
-                        parkingBrakeSet = receivedData.parkingBrakeState;
-                        switch (Status)
-                        {
-                            case TugStatus.Forward:
-                                SetTugSpeed(SpeedFactor);
-                                break;
-                            case TugStatus.Reverse:
-                                SetTugSpeed(-SpeedFactor);
-                                break;
-                        }
-                    }
 
                     if (receivedData.pushbackState == 3)
                         Status = TugStatus.Disabled;
