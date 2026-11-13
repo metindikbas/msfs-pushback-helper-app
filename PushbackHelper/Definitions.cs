@@ -5,7 +5,8 @@
         RefreshDataRequest,
         StartTugMode,
         ExitTypeRequest,
-        ExitOpenRequest
+        ExitOpenRequest,
+        HeadingRequest
     }
     enum DefinitionsEnum
     {
@@ -18,7 +19,8 @@
         VelocityZ,
         RotationX,
         RotationY,
-        RotationZ
+        RotationZ,
+        Heading
     }
     enum EventsEnum
     {

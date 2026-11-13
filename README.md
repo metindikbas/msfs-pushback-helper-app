@@ -15,7 +15,9 @@ Pushback Helper is an application to make push back operations easier.
 [Latest Release v2.6](https://github.com/metindikbas/msfs-pushback-helper-app/releases/download/v2.6/msfs-pushback-helper-app-v2.6.zip)
 
 ## Requirements
+- Microsoft Flight Simulator 2024 (built with the MSFS 2024 SDK SimConnect client, SDK 1.6.9). MSFS 2020 is not supported by this version, MSFS 2020 users should keep using v2.6.
 - .NET Framework 4.7.2
+- Microsoft Visual C++ 2015-2022 Redistributable (x64), normally already installed together with MSFS
 
 ## Installation
 Extract all files to any location and run PushbackHelper.exe. There is no need to put into the community folder location.
@@ -71,6 +73,14 @@ If you wish to auto-launch the app upon the start of MSFS, follow these steps:
 - When done, click **Stop**. Apply the parking brake. Click the **Tug** button again to remove the tug.
 
 ## NEW CHANGES
+- [FEATURE] SimConnect updated to the MSFS 2024 SDK (1.6.9)
+- [BUGFIX] No longer opens a new SimConnect connection every second while the sim is loading
+- [BUGFIX] SimConnect errors no longer pop up error dialogs while the tug is active
+- [BUGFIX] A broken SimConnect connection (e.g. sim crash) is detected instead of leaving the app stuck as connected
+- [BUGFIX] Tug zero values (side, vertical and roll/pitch velocity) are sent as 8-byte values matching their data definitions (they were sent as 4-byte integers)
+- [BUGFIX] Tug heading uses the aircraft heading from every sim frame instead of once per second, so the tug stays at 90° in fast turns
+
+## v2.6 CHANGES
 - [FEATURE] Added multiple rotation speeds to left and right
 
 ## v2.5 CHANGES

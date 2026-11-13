@@ -154,6 +154,10 @@ namespace PushbackHelper
                         StartTugMode();
                     }
                 }
+                else if (request == RequestsEnum.HeadingRequest)
+                {
+                    tugHeading = (double)data.dwData[0];
+                }
                 else if (request == RequestsEnum.StartTugMode)
                 {
                     RefreshDataStruct receivedData = (RefreshDataStruct)data.dwData[0];
@@ -174,7 +178,7 @@ namespace PushbackHelper
         {
             if (tugSpeed == 0)
             {
-                myManager.SetData(DefinitionsEnum.RotationY, 0);
+                myManager.SetData(DefinitionsEnum.RotationY, 0.0);
             }
             else
             {
@@ -271,11 +275,11 @@ namespace PushbackHelper
             if (TugActive)
             {
                 myManager.SetData(DefinitionsEnum.PushbackWait, tugSpeed == 0 ? 1 : 0);
-                myManager.SetData(DefinitionsEnum.VelocityX, 0);
-                myManager.SetData(DefinitionsEnum.VelocityY, 0);
+                myManager.SetData(DefinitionsEnum.VelocityX, 0.0);
+                myManager.SetData(DefinitionsEnum.VelocityY, 0.0);
                 myManager.SetData(DefinitionsEnum.VelocityZ, tugSpeed * .2);
-                myManager.SetData(DefinitionsEnum.RotationX, 0);
-                myManager.SetData(DefinitionsEnum.RotationZ, 0);
+                myManager.SetData(DefinitionsEnum.RotationX, 0.0);
+                myManager.SetData(DefinitionsEnum.RotationZ, 0.0);
                 SetTugHeading();
             }
         }

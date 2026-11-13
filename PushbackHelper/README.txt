@@ -1,6 +1,11 @@
 PUSHBACK HELPER v2.6
 Release date: 2024/05/01
 
+### REQUIREMENTS ###
+- Microsoft Flight Simulator 2024 (MSFS 2020 users should keep using v2.6)
+- .NET Framework 4.7.2
+- Microsoft Visual C++ 2015-2022 Redistributable (x64), normally already installed together with MSFS
+
 ### INSTALLATION ###
 Extract all files to any location and run PushbackHelper.exe. There is no need to put into the community folder location.
 
