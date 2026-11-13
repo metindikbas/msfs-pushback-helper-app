@@ -4,18 +4,21 @@ on:
   push:
     branches: master
 
+permissions:
+  contents: write
+
 jobs:
   build:
     env:
       MAIN_PRE_RELEASE_TAG: beta
       MAIN_ZIP_NAME: MSFS-Pushback-Helper-App-beta.zip
-    runs-on: [windows-latest]
+    runs-on: windows-latest
 
     steps:
     - name: Checkout source
-      uses: actions/checkout@v2
+      uses: actions/checkout@v7
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1
+      uses: microsoft/setup-msbuild@v3
     - name: Restore packages
       run: msbuild PushbackHelper.sln -t:restore -p:RestorePackagesConfig=true
     - name: Build
@@ -25,7 +28,6 @@ jobs:
       run: |
         7z a -tzip "./${{ env.MAIN_ZIP_NAME }}" "./PushbackHelper/bin/Release/*"
     - name: Upload release asset
-      id: upload-release-asset 
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -33,4 +35,7 @@ jobs:
         asset_name: ${{ env.MAIN_ZIP_NAME }}
         tag: ${{ env.MAIN_PRE_RELEASE_TAG }}
         overwrite: true
+        # Keep the beta out of "latest release", which the README download link points to.
+        prerelease: true
+        make_latest: false
         body: "This pre-release has its ${{ env.MAIN_ZIP_NAME }} asset updated on every commit to the main branch\nDo not use the source code assets, they are never updated\nLast updated from commit ${{ github.sha }}\nThis link will always point to the latest main build: https://github.com/${{ github.repository }}/releases/download/${{ env.MAIN_PRE_RELEASE_TAG }}/${{ env.MAIN_ZIP_NAME }}"

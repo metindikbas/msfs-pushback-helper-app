@@ -5,46 +5,33 @@ on:
     tags:
     - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
-    runs-on: [windows-latest]
+    runs-on: windows-latest
+    env:
+      RELEASE_ZIP_NAME: msfs-pushback-helper-app-${{ github.ref_name }}.zip
 
     steps:
-    - name: Get the version
-      id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-      shell: bash
     - name: Checkout source
-      uses: actions/checkout@v2
+      uses: actions/checkout@v7
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1
+      uses: microsoft/setup-msbuild@v3
     - name: Restore packages
       run: msbuild PushbackHelper.sln -t:restore -p:RestorePackagesConfig=true
     - name: Build
       run: msbuild PushbackHelper.sln /p:Configuration=Release /p:Platform=x64
     - name: Create ZIP file
       shell: bash
-      env:
-        RELEASE_ZIP_NAME: msfs-pushback-helper-app-${{ steps.get_version.outputs.VERSION }}.zip
       run: |
         7z a -tzip "./${{ env.RELEASE_ZIP_NAME }}" "./PushbackHelper/bin/Release/*"
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create release
+      uses: softprops/action-gh-release@v3
       with:
-        tag_name: ${{ steps.get_version.outputs.VERSION }}
-        release_name: Release ${{ steps.get_version.outputs.VERSION }}
+        tag_name: ${{ github.ref_name }}
+        name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
-    - name: Upload release asset
-      uses: actions/upload-release-asset@v1
-      env:
-        RELEASE_ZIP_NAME: msfs-pushback-helper-app-${{ steps.get_version.outputs.VERSION }}.zip
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./${{ env.RELEASE_ZIP_NAME }}
-        asset_name: ${{ env.RELEASE_ZIP_NAME }}
-        asset_content_type: application/zip
+        files: ./${{ env.RELEASE_ZIP_NAME }}
